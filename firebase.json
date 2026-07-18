@@ -3,5 +3,9 @@
     "backendId": "essentia",
     "rootDir": "web",
     "ignore": ["node_modules", ".git", "firebase-debug.log", "firebase-debug.*.log"]
+  },
+  "firestore": {
+    "rules": "backend/firestore-rules/firestore.rules",
+    "indexes": "backend/firestore-rules/firestore.indexes.json"
   }
 }
