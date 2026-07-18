@@ -3,6 +3,7 @@ import "package:go_router/go_router.dart";
 
 import "../../core/theme/app_colors.dart";
 import "../../core/theme/app_radii.dart";
+import "../../core/theme/app_theme.dart";
 
 /// Écran d'accueil avec la bottom nav (Accueil / Messages / Agenda / Profil),
 /// reprenant la structure de navigation principale des maquettes. Le contenu
@@ -28,8 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Essencia & Co")),
-      body: _AccueilTab(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Colors.white,
+      ),
+      body: const _AccueilTab(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
         items: [
@@ -80,30 +86,159 @@ class _AccueilTab extends StatelessWidget {
     ];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Bonjour 👋",
-            style: Theme.of(context).textTheme.headlineMedium,
+          const _HomeHero(),
+          Transform.translate(
+            offset: const Offset(0, -32),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _NextAppointmentCard(),
+            ),
           ),
-          const SizedBox(height: 20),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.5,
-            children: [
-              for (final action in quickActions)
-                _QuickActionCard(
-                  icon: action.icon,
-                  label: action.label,
-                  onTap: () => context.push(action.route),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Accès rapides",
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-            ],
+                const SizedBox(height: 14),
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1.5,
+                  children: [
+                    for (final action in quickActions)
+                      _QuickActionCard(
+                        icon: action.icon,
+                        label: action.label,
+                        onTap: () => context.push(action.route),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Bandeau hero en tête de l'accueil : dégradé de marque, salutation et
+/// avatar, sur le même principe que le Hero de la landing page web.
+class _HomeHero extends StatelessWidget {
+  const _HomeHero();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        MediaQuery.of(context).padding.top + 12,
+        20,
+        56,
+      ),
+      decoration: const BoxDecoration(
+        gradient: AppColors.gradient,
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Bonjour Marie 👋",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  "Voici vos activités du jour",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 44,
+            height: 44,
+            decoration: const BoxDecoration(
+              color: Colors.white24,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.notifications_rounded,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Carte "prochain rendez-vous" qui chevauche le bas du hero, comme sur la
+/// maquette de l'écran d'accueil.
+class _NextAppointmentCard extends StatelessWidget {
+  const _NextAppointmentCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        boxShadow: AppTheme.softShadow,
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.primarySoft.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(AppRadii.field),
+            ),
+            child: const Icon(
+              Icons.event_available_rounded,
+              color: AppColors.primaryDark,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Prochain rendez-vous",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  "Coiffeur — Aujourd'hui 14h30",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () => context.push("/agenda"),
+            child: const Text("Voir"),
           ),
         ],
       ),
