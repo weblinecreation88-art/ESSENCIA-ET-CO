@@ -1,40 +1,44 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const navLinks = [
+  { href: "#roles", label: "Pour qui" },
+  { href: "#apercu", label: "L'application" },
+  { href: "#pourquoi", label: "Pourquoi nous" },
+  { href: "#contact", label: "Contact" },
+];
+
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="#" className="flex items-center gap-2">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
+        <Link href="#top" className="flex items-center gap-3">
           <Image
             src="/logo.png"
             alt="Essencia & Co"
-            width={40}
-            height={40}
-            className="rounded-card"
+            width={46}
+            height={46}
+            className="rounded-[15px] shadow-[0_8px_22px_rgba(70,40,120,0.14)]"
             priority
           />
-          <span className="font-heading text-lg font-semibold text-title">
+          <span className="whitespace-nowrap font-heading text-xl font-bold tracking-tight text-title">
             Essencia &amp; Co
           </span>
         </Link>
-        <nav className="hidden items-center gap-8 text-sm font-medium text-text md:flex">
-          <a href="#roles" className="hover:text-primary">
-            Pour qui
-          </a>
-          <a href="#apercu" className="hover:text-primary">
-            L&apos;application
-          </a>
-          <a href="#pourquoi" className="hover:text-primary">
-            Pourquoi nous
-          </a>
-          <a href="#contact" className="hover:text-primary">
-            Contact
-          </a>
+        <nav className="hidden items-center gap-7 text-base font-medium text-text md:flex">
+          {navLinks.map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className="whitespace-nowrap transition-colors hover:text-primary"
+            >
+              {label}
+            </a>
+          ))}
         </nav>
         <a
           href="#contact"
-          className="rounded-button bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark"
+          className="flex-none rounded-button bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(140,104,213,0.32)] transition hover:bg-primary-dark active:scale-95"
         >
           Demander une démo
         </a>
