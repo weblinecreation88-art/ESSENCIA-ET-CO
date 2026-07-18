@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "70499913861",
+    "project_id": "essencia-et-co",
+    "storage_bucket": "essencia-et-co.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70499913861:android:5d8ec338cf8d73534399ec",
+        "android_client_info": {
+          "package_name": "com.essenciaco.essencia_co"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtXy-chh0lEFp_puZNqiIk93xpJLEyQ6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
