@@ -31,6 +31,14 @@ class AuthRepository {
     return _auth.sendPasswordResetEmail(email: email);
   }
 
+  /// Connexion Google via le flux de fournisseur unifié de Firebase Auth
+  /// (popup web / vue web intégrée sur mobile) : ne nécessite pas
+  /// d'empreinte SHA-1 ni de package `google_sign_in` séparé.
+  Future<User> signInWithGoogle() async {
+    final credential = await _auth.signInWithProvider(GoogleAuthProvider());
+    return credential.user!;
+  }
+
   Future<void> signOut() => _auth.signOut();
 
   /// Traduit les codes d'erreur Firebase Auth les plus courants en français.

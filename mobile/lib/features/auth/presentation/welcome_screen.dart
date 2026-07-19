@@ -13,10 +13,9 @@ class WelcomeScreen extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.gradient),
         child: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   width: 88,
@@ -54,7 +53,16 @@ class WelcomeScreen extends StatelessWidget {
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 28),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image.asset(
+                    "assets/illustrations/caregivers-wheelchair.png",
+                    height: 220,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 32),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

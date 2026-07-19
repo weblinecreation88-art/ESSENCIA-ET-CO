@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
+import "../../../core/widgets/google_logo.dart";
 import "../application/auth_providers.dart";
 import "../data/auth_repository.dart";
 
@@ -19,6 +20,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isSubmitting = false;
+  bool _isGoogleSubmitting = false;
   String? _errorMessage;
 
   @override
@@ -47,6 +49,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       setState(() => _errorMessage = AuthRepository.messageFor(error));
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    setState(() {
+      _isGoogleSubmitting = true;
+      _errorMessage = null;
+    });
+    try {
+      final user = await ref.read(authRepositoryProvider).signInWithGoogle();
+      if (!mounted) return;
+      final route = await resolvePostAuthRoute(ref, user.uid);
+      if (!mounted) return;
+      context.go(route);
+    } on FirebaseAuthException catch (error) {
+      setState(() => _errorMessage = AuthRepository.messageFor(error));
+    } finally {
+      if (mounted) setState(() => _isGoogleSubmitting = false);
     }
   }
 
@@ -79,11 +99,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Bienvenue !", style: Theme.of(context).textTheme.displayLarge),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "Bienvenue !",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                ),
                 const SizedBox(height: 6),
-                Text(
-                  "Connectez-vous à votre compte",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "Connectez-vous à votre compte",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
                 const SizedBox(height: 28),
                 TextFormField(
@@ -155,6 +186,47 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           )
                         : const Text("Se connecter"),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: Theme.of(context).colorScheme.outlineVariant)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text("ou", style: Theme.of(context).textTheme.bodySmall),
+                    ),
+                    Expanded(child: Divider(color: Theme.of(context).colorScheme.outlineVariant)),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _isGoogleSubmitting ? null : _signInWithGoogle,
+                    icon: _isGoogleSubmitting
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const GoogleLogo(),
+                    label: const Text("Continuer avec Google"),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Connexion Apple bientôt disponible."),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.apple, size: 20),
+                    label: const Text("Continuer avec Apple"),
                   ),
                 ),
                 const SizedBox(height: 20),
