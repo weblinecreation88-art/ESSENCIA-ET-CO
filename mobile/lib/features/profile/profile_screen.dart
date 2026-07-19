@@ -212,6 +212,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       label: "Aide et support",
                       onTap: () => context.push("/profile/help"),
                     ),
+                    if (profile.isAdmin)
+                      _ProfileMenuTile(
+                        icon: Icons.leaderboard_rounded,
+                        label: "Administration",
+                        onTap: () => context.push("/admin/staff"),
+                      ),
                     const SizedBox(height: AppSpacing.md),
                     OutlinedButton.icon(
                       onPressed: () async {

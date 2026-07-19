@@ -5,6 +5,7 @@ import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { ProductPreview } from "@/components/landing/ProductPreview";
 import { Roles } from "@/components/landing/Roles";
+import { StaffRecognition } from "@/components/landing/StaffRecognition";
 import { WhyEssencia } from "@/components/landing/WhyEssencia";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         <ProductPreview />
         <WhyEssencia />
         <Features />
+        <StaffRecognition />
         <Cta />
       </main>
       <Footer />

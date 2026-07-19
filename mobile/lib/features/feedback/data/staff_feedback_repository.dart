@@ -31,4 +31,18 @@ class StaffFeedbackRepository {
       ],
     );
   }
+
+  /// Réservé aux administrateurs : récupère tous les avis de tous les
+  /// professionnels, regroupés par uid de professionnel.
+  Future<Map<String, List<StaffFeedback>>> fetchAllGroupedByStaff() async {
+    final snapshot = await _firestore.collectionGroup("feedback").get();
+    final grouped = <String, List<StaffFeedback>>{};
+    for (final doc in snapshot.docs) {
+      final staffUid = doc.reference.parent.parent!.id;
+      grouped
+          .putIfAbsent(staffUid, () => [])
+          .add(StaffFeedback.fromMap(doc.id, doc.data()));
+    }
+    return grouped;
+  }
 }

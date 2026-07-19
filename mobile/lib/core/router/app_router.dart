@@ -23,6 +23,9 @@ import "../../features/notifications/presentation/notifications_screen.dart";
 import "../../features/photos/presentation/photos_screen.dart";
 import "../../features/feedback/presentation/staff_screen.dart";
 import "../../features/feedback/presentation/staff_feedback_screen.dart";
+import "../../features/feedback/presentation/admin_staff_screen.dart";
+import "../../features/second_life/presentation/second_life_screen.dart";
+import "../../features/second_life/presentation/create_listing_screen.dart";
 
 final GoRouter appRouter = GoRouter(
   initialLocation: "/splash",
@@ -117,6 +120,18 @@ final GoRouter appRouter = GoRouter(
           staffName: params["staffName"]!,
         );
       },
+    ),
+    GoRoute(
+      path: "/admin/staff",
+      builder: (context, state) => const AdminStaffScreen(),
+    ),
+    GoRoute(
+      path: "/second-life",
+      builder: (context, state) => const SecondLifeScreen(),
+    ),
+    GoRoute(
+      path: "/second-life/new",
+      builder: (context, state) => const CreateListingScreen(),
     ),
   ],
 );

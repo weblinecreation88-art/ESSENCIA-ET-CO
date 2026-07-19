@@ -18,7 +18,7 @@ class ServicesScreen extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: AppSpacing.md,
         crossAxisSpacing: AppSpacing.md,
-        childAspectRatio: 1.05,
+        childAspectRatio: 0.92,
         children: [
           for (final category in ServiceCategory.values)
             InkWell(

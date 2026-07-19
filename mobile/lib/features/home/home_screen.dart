@@ -89,7 +89,7 @@ class _AccueilTab extends StatelessWidget {
       (
         icon: Icons.recycling_rounded,
         label: "Seconde vie",
-        route: "/services",
+        route: "/second-life",
       ),
       (
         icon: Icons.emoji_emotions_rounded,
@@ -113,7 +113,7 @@ class _AccueilTab extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.xl,
-              AppSpacing.sm,
+              AppSpacing.xs,
               AppSpacing.xl,
               AppSpacing.xl,
             ),
@@ -131,7 +131,7 @@ class _AccueilTab extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: AppSpacing.sm,
                   crossAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 1.5,
+                  childAspectRatio: 1.45,
                   children: [
                     for (final action in quickActions)
                       _QuickActionCard(
@@ -324,7 +324,10 @@ class _QuickActionCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppRadii.card),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadii.card),
@@ -334,9 +337,9 @@ class _QuickActionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: AppColors.primary),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.xs),
             SizedBox(
-              height: 36,
+              height: 40,
               child: Center(
                 child: Text(
                   label,
