@@ -31,7 +31,6 @@ class ServicesScreen extends StatelessWidget {
                   boxShadow: AppTheme.softShadow,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
@@ -44,9 +43,17 @@ class ServicesScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Text(
-                      category.label,
-                      style: Theme.of(context).textTheme.titleMedium,
+                    SizedBox(
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          category.label,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
                     ),
                   ],
                 ),

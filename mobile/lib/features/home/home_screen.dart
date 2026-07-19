@@ -320,12 +320,22 @@ class _QuickActionCard extends StatelessWidget {
           border: Border.all(color: AppColors.border),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: AppColors.primary),
             const SizedBox(height: 8),
-            Text(label, style: Theme.of(context).textTheme.bodyMedium),
+            SizedBox(
+              height: 36,
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ),
           ],
         ),
       ),
