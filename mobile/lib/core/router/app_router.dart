@@ -9,6 +9,16 @@ import "../../features/auth/presentation/login_screen.dart";
 import "../../features/auth/presentation/signup_screen.dart";
 import "../../features/auth/presentation/role_selection_screen.dart";
 import "../../features/profile/profile_screen.dart";
+import "../../features/profile/family_screen.dart";
+import "../../features/chat/presentation/conversations_screen.dart";
+import "../../features/chat/presentation/new_conversation_screen.dart";
+import "../../features/chat/presentation/chat_screen.dart";
+import "../../features/agenda/presentation/agenda_screen.dart";
+import "../../features/services/presentation/services_screen.dart";
+import "../../features/services/presentation/providers_screen.dart";
+import "../../features/services/presentation/booking_screen.dart";
+import "../../features/services/domain/service_category.dart";
+import "../../features/notifications/presentation/notifications_screen.dart";
 
 final GoRouter appRouter = GoRouter(
   initialLocation: "/splash",
@@ -27,39 +37,73 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const ProfileScreen(),
     ),
     GoRoute(
-      path: "/chat",
+      path: "/profile/family",
+      builder: (context, state) => const FamilyScreen(),
+    ),
+    GoRoute(
+      path: "/profile/preferences",
       builder: (context, state) => const PlaceholderScreen(
-        title: "Messagerie",
-        icon: Icons.chat_bubble_rounded,
+        title: "Mes préférences",
+        icon: Icons.tune_rounded,
       ),
+    ),
+    GoRoute(
+      path: "/profile/settings",
+      builder: (context, state) => const PlaceholderScreen(
+        title: "Paramètres",
+        icon: Icons.settings_rounded,
+      ),
+    ),
+    GoRoute(
+      path: "/profile/help",
+      builder: (context, state) => const PlaceholderScreen(
+        title: "Aide et support",
+        icon: Icons.help_rounded,
+      ),
+    ),
+    GoRoute(
+      path: "/chat",
+      builder: (context, state) => const ConversationsScreen(),
+    ),
+    GoRoute(
+      path: "/chat/new",
+      builder: (context, state) => const NewConversationScreen(),
+    ),
+    GoRoute(
+      path: "/chat/:chatId",
+      builder: (context, state) =>
+          ChatScreen(chatId: state.pathParameters["chatId"]!),
     ),
     GoRoute(
       path: "/agenda",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Agenda",
-        icon: Icons.calendar_today_rounded,
-      ),
+      builder: (context, state) => const AgendaScreen(),
     ),
     GoRoute(
       path: "/services",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Services",
-        icon: Icons.design_services_rounded,
+      builder: (context, state) => const ServicesScreen(),
+    ),
+    GoRoute(
+      path: "/services/:category",
+      builder: (context, state) => ProvidersScreen(
+        category: ServiceCategory.fromStorage(
+          state.pathParameters["category"]!,
+        ),
       ),
     ),
     GoRoute(
       path: "/booking",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Réservation",
-        icon: Icons.event_available_rounded,
-      ),
+      builder: (context, state) {
+        final params = state.uri.queryParameters;
+        return BookingScreen(
+          providerId: params["providerId"]!,
+          providerName: params["providerName"]!,
+          category: ServiceCategory.fromStorage(params["category"]!),
+        );
+      },
     ),
     GoRoute(
       path: "/notifications",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Notifications",
-        icon: Icons.notifications_rounded,
-      ),
+      builder: (context, state) => const NotificationsScreen(),
     ),
   ],
 );

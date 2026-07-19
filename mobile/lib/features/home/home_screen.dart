@@ -1,9 +1,12 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
 import "../../core/theme/app_colors.dart";
 import "../../core/theme/app_radii.dart";
 import "../../core/theme/app_theme.dart";
+import "../auth/application/auth_providers.dart";
+import "../notifications/application/notification_providers.dart";
 
 /// Écran d'accueil avec la bottom nav (Accueil / Messages / Agenda / Profil),
 /// reprenant la structure de navigation principale des maquettes. Le contenu
@@ -61,7 +64,11 @@ class _AccueilTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const quickActions = [
-      (icon: Icons.people_alt_rounded, label: "Ma famille", route: "/chat"),
+      (
+        icon: Icons.people_alt_rounded,
+        label: "Ma famille",
+        route: "/profile/family",
+      ),
       (
         icon: Icons.chat_bubble_outline_rounded,
         label: "Messages",
@@ -76,7 +83,7 @@ class _AccueilTab extends StatelessWidget {
       (
         icon: Icons.event_available_rounded,
         label: "Réserver un service",
-        route: "/booking",
+        route: "/services",
       ),
       (
         icon: Icons.recycling_rounded,
@@ -134,11 +141,12 @@ class _AccueilTab extends StatelessWidget {
 
 /// Bandeau hero en tête de l'accueil : dégradé de marque, salutation et
 /// avatar, sur le même principe que le Hero de la landing page web.
-class _HomeHero extends StatelessWidget {
+class _HomeHero extends ConsumerWidget {
   const _HomeHero();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authRepositoryProvider).currentUser;
     return Container(
       padding: EdgeInsets.fromLTRB(
         20,
@@ -173,16 +181,58 @@ class _HomeHero extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            width: 44,
-            height: 44,
-            decoration: const BoxDecoration(
-              color: Colors.white24,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.notifications_rounded,
-              color: Colors.white,
+          GestureDetector(
+            onTap: () => context.push("/notifications"),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: const BoxDecoration(
+                    color: Colors.white24,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.notifications_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+                if (user != null)
+                  StreamBuilder<int>(
+                    stream: ref
+                        .read(notificationRepositoryProvider)
+                        .watchUnreadCount(user.uid),
+                    builder: (context, snapshot) {
+                      final count = snapshot.data ?? 0;
+                      if (count == 0) return const SizedBox.shrink();
+                      return Positioned(
+                        right: -2,
+                        top: -2,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: AppColors.secondary,
+                            shape: BoxShape.circle,
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 18,
+                            minHeight: 18,
+                          ),
+                          child: Text(
+                            "$count",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+              ],
             ),
           ),
         ],

@@ -1,5 +1,8 @@
 import Image from "next/image";
-import { Bell, Check, MessageCircle } from "lucide-react";
+import { Bell, Check, Download, MessageCircle } from "lucide-react";
+
+const APK_DOWNLOAD_URL =
+  "https://drive.google.com/file/d/1p8C42qFhkHdZEdVIcIC59z6tCyVDMi_a/view?usp=sharing";
 
 export function Hero() {
   return (
@@ -64,6 +67,15 @@ export function Hero() {
               Découvrir l&apos;application
             </a>
           </div>
+          <a
+            href={APK_DOWNLOAD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[0.98rem] font-semibold text-primary-dark transition hover:text-primary"
+          >
+            <Download size={18} strokeWidth={2.2} />
+            Télécharger l&apos;APK Android (bêta, avant le Play Store)
+          </a>
           <div className="flex flex-wrap gap-[22px] pt-3.5 text-base text-text-muted">
             {["Conçu pour rassurer", "Accessible aux seniors", "Données sécurisées"].map(
               (label) => (

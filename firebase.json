@@ -7,5 +7,8 @@
   "firestore": {
     "rules": "backend/firestore-rules/firestore.rules",
     "indexes": "backend/firestore-rules/firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "backend/firestore-rules/storage.rules"
   }
 }
