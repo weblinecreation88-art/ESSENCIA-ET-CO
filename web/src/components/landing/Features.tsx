@@ -6,6 +6,7 @@ import {
   MessageCircle,
   RefreshCw,
   ShieldCheck,
+  SmilePlus,
   UserCircle,
 } from "lucide-react";
 
@@ -65,6 +66,13 @@ const features = [
     icon: RefreshCw,
     color: "#f6a53a",
     tint: "#fdf2e4",
+  },
+  {
+    title: "Feedback du personnel",
+    description: "Les résidents notent le personnel de façon anonyme et bienveillante.",
+    icon: SmilePlus,
+    color: "#8c68d5",
+    tint: "#f3eefc",
   },
 ];
 

@@ -11,6 +11,9 @@ import "../../core/theme/app_spacing.dart";
 import "../../core/theme/app_theme.dart";
 import "../auth/application/auth_providers.dart";
 import "../auth/domain/user_profile.dart";
+import "../auth/domain/user_role.dart";
+import "../feedback/application/staff_feedback_providers.dart";
+import "../feedback/domain/staff_feedback.dart";
 import "application/profile_providers.dart";
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -177,6 +180,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 padding: const EdgeInsets.all(AppSpacing.xl),
                 sliver: SliverList.list(
                   children: [
+                    if (profile.role == UserRole.professional)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                        child: _AverageRatingCard(uid: profile.uid),
+                      ),
                     _ProfileMenuTile(
                       icon: Icons.badge_rounded,
                       label: "Mes informations",
@@ -215,6 +223,64 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                   ],
                 ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _AverageRatingCard extends ConsumerWidget {
+  const _AverageRatingCard({required this.uid});
+
+  final String uid;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadii.field),
+        boxShadow: AppTheme.softShadow,
+      ),
+      child: StreamBuilder<List<StaffFeedback>>(
+        stream: ref.read(staffFeedbackRepositoryProvider).watch(uid),
+        builder: (context, snapshot) {
+          final feedback = snapshot.data ?? [];
+          final title = Text(
+            "Ma note moyenne",
+            style: Theme.of(context).textTheme.titleMedium,
+          );
+          if (feedback.isEmpty) {
+            return Row(
+              children: [
+                Expanded(child: title),
+                Text(
+                  "Pas encore d'avis",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            );
+          }
+          final average =
+              feedback.map((f) => f.rating.score).reduce((a, b) => a + b) /
+              feedback.length;
+          final emoji = average >= 2.5
+              ? "😊"
+              : average >= 1.5
+              ? "😐"
+              : "😠";
+          return Row(
+            children: [
+              Expanded(child: title),
+              Text(
+                "${average.toStringAsFixed(1)}/3 $emoji · ${feedback.length} avis",
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
             ],
           );

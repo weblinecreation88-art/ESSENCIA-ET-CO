@@ -21,6 +21,8 @@ import "../../features/services/presentation/booking_screen.dart";
 import "../../features/services/domain/service_category.dart";
 import "../../features/notifications/presentation/notifications_screen.dart";
 import "../../features/photos/presentation/photos_screen.dart";
+import "../../features/feedback/presentation/staff_screen.dart";
+import "../../features/feedback/presentation/staff_feedback_screen.dart";
 
 final GoRouter appRouter = GoRouter(
   initialLocation: "/splash",
@@ -101,6 +103,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: "/photos",
       builder: (context, state) => const PhotosScreen(),
+    ),
+    GoRoute(
+      path: "/staff",
+      builder: (context, state) => const StaffScreen(),
+    ),
+    GoRoute(
+      path: "/staff/feedback",
+      builder: (context, state) {
+        final params = state.uri.queryParameters;
+        return StaffFeedbackScreen(
+          staffId: params["staffId"]!,
+          staffName: params["staffName"]!,
+        );
+      },
     ),
   ],
 );

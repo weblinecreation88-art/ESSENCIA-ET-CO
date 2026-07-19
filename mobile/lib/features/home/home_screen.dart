@@ -91,6 +91,11 @@ class _AccueilTab extends StatelessWidget {
         label: "Seconde vie",
         route: "/services",
       ),
+      (
+        icon: Icons.emoji_emotions_rounded,
+        label: "Noter le personnel",
+        route: "/staff",
+      ),
     ];
 
     return SingleChildScrollView(
