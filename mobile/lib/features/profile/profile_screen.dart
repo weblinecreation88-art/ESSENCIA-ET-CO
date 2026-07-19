@@ -185,6 +185,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         padding: const EdgeInsets.only(bottom: AppSpacing.md),
                         child: _AverageRatingCard(uid: profile.uid),
                       ),
+                    if (profile.role == UserRole.provider)
+                      _ProfileMenuTile(
+                        icon: Icons.event_available_rounded,
+                        label: "Mes réservations",
+                        onTap: () => context.push("/provider/bookings"),
+                      ),
                     _ProfileMenuTile(
                       icon: Icons.badge_rounded,
                       label: "Mes informations",

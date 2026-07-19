@@ -13,4 +13,17 @@ class BookingRepository {
     final doc = await _firestore.collection("bookings").add(booking.toMap());
     return doc.id;
   }
+
+  Stream<List<Booking>> watchForProvider(String providerId) {
+    return _firestore
+        .collection("bookings")
+        .where("providerId", isEqualTo: providerId)
+        .orderBy("date")
+        .snapshots()
+        .map(
+          (snapshot) => [
+            for (final doc in snapshot.docs) Booking.fromMap(doc.id, doc.data()),
+          ],
+        );
+  }
 }

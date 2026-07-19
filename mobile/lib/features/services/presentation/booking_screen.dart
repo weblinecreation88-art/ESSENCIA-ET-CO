@@ -80,6 +80,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         Booking(
           id: "",
           residentId: residentId,
+          residentName: residentName,
           providerId: widget.providerId,
           providerName: widget.providerName,
           category: widget.category,

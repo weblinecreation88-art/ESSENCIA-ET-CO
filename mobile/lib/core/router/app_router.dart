@@ -18,6 +18,7 @@ import "../../features/agenda/presentation/agenda_screen.dart";
 import "../../features/services/presentation/services_screen.dart";
 import "../../features/services/presentation/providers_screen.dart";
 import "../../features/services/presentation/booking_screen.dart";
+import "../../features/services/presentation/provider_bookings_screen.dart";
 import "../../features/services/domain/service_category.dart";
 import "../../features/notifications/presentation/notifications_screen.dart";
 import "../../features/photos/presentation/photos_screen.dart";
@@ -26,6 +27,8 @@ import "../../features/feedback/presentation/staff_feedback_screen.dart";
 import "../../features/feedback/presentation/admin_staff_screen.dart";
 import "../../features/second_life/presentation/second_life_screen.dart";
 import "../../features/second_life/presentation/create_listing_screen.dart";
+import "../../features/journal/presentation/journal_screen.dart";
+import "../../features/journal/presentation/journal_detail_screen.dart";
 
 final GoRouter appRouter = GoRouter(
   initialLocation: "/splash",
@@ -100,6 +103,10 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: "/provider/bookings",
+      builder: (context, state) => const ProviderBookingsScreen(),
+    ),
+    GoRoute(
       path: "/notifications",
       builder: (context, state) => const NotificationsScreen(),
     ),
@@ -132,6 +139,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: "/second-life/new",
       builder: (context, state) => const CreateListingScreen(),
+    ),
+    GoRoute(
+      path: "/journal",
+      builder: (context, state) => const JournalScreen(),
+    ),
+    GoRoute(
+      path: "/journal/detail",
+      builder: (context, state) {
+        final params = state.uri.queryParameters;
+        return JournalDetailScreen(
+          residentId: params["residentId"]!,
+          title: params["title"]!,
+        );
+      },
     ),
   ],
 );

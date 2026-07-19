@@ -69,32 +69,49 @@ class _AccueilTab extends StatelessWidget {
         icon: Icons.people_alt_rounded,
         label: "Ma famille",
         route: "/profile/family",
+        color: AppColors.roleFamily,
       ),
       (
         icon: Icons.chat_bubble_outline_rounded,
         label: "Messages",
         route: "/chat",
+        color: AppColors.roleFamily,
       ),
-      (icon: Icons.photo_camera_rounded, label: "Photos", route: "/photos"),
+      (
+        icon: Icons.photo_camera_rounded,
+        label: "Photos",
+        route: "/photos",
+        color: AppColors.roleResident,
+      ),
       (
         icon: Icons.calendar_month_rounded,
         label: "Agenda",
         route: "/agenda",
+        color: AppColors.roleResident,
+      ),
+      (
+        icon: Icons.menu_book_rounded,
+        label: "Journal de vie",
+        route: "/journal",
+        color: AppColors.roleResident,
       ),
       (
         icon: Icons.event_available_rounded,
         label: "Réserver un service",
         route: "/services",
+        color: AppColors.roleProvider,
       ),
       (
         icon: Icons.recycling_rounded,
         label: "Seconde vie",
         route: "/second-life",
+        color: AppColors.roleProvider,
       ),
       (
         icon: Icons.emoji_emotions_rounded,
         label: "Noter le personnel",
         route: "/staff",
+        color: AppColors.roleProfessional,
       ),
     ];
 
@@ -137,6 +154,7 @@ class _AccueilTab extends StatelessWidget {
                       _QuickActionCard(
                         icon: action.icon,
                         label: action.label,
+                        color: action.color,
                         onTap: () => context.push(action.route),
                       ),
                   ],
@@ -312,11 +330,13 @@ class _QuickActionCard extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
+    this.color = AppColors.primary,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -336,7 +356,15 @@ class _QuickActionCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: AppColors.primary),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 20),
+            ),
             const SizedBox(height: AppSpacing.xs),
             SizedBox(
               height: 40,
