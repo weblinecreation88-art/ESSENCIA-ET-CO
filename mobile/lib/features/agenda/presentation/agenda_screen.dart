@@ -6,6 +6,7 @@ import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
 import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
+import "../../../core/widgets/celebration.dart";
 import "../../auth/application/auth_providers.dart";
 import "../application/agenda_providers.dart";
 import "../domain/agenda_event.dart";
@@ -133,6 +134,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
 
     if (event != null) {
       await ref.read(agendaRepositoryProvider).add(uid, event);
+      if (mounted) celebrate(context);
     }
   }
 

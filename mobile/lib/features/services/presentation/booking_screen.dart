@@ -7,6 +7,7 @@ import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
 import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
+import "../../../core/widgets/celebration.dart";
 import "../../agenda/application/agenda_providers.dart";
 import "../../agenda/domain/agenda_event.dart";
 import "../../auth/application/auth_providers.dart";
@@ -119,9 +120,12 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         );
       }
       if (!mounted) return;
+      celebrate(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Réservation confirmée !")),
       );
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (!mounted) return;
       context.go("/home");
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
