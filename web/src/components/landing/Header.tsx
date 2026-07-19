@@ -36,12 +36,6 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
-          className="flex-none rounded-button bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(140,104,213,0.32)] transition hover:bg-primary-dark active:scale-95"
-        >
-          Demander une démo
-        </a>
       </div>
     </header>
   );
