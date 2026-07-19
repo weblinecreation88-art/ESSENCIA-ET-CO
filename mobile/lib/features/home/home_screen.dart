@@ -98,7 +98,7 @@ class _AccueilTab extends StatelessWidget {
         children: [
           const _HomeHero(),
           Transform.translate(
-            offset: const Offset(0, -32),
+            offset: const Offset(0, -20),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: _NextAppointmentCard(),
@@ -150,9 +150,9 @@ class _HomeHero extends ConsumerWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(
         20,
-        MediaQuery.of(context).padding.top + 12,
+        MediaQuery.of(context).padding.top + 8,
         20,
-        56,
+        32,
       ),
       decoration: const BoxDecoration(
         gradient: AppColors.gradient,
@@ -171,7 +171,7 @@ class _HomeHero extends ConsumerWidget {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
                   "Voici vos activités du jour",
                   style: Theme.of(
@@ -249,7 +249,7 @@ class _NextAppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadii.card),
@@ -258,8 +258,8 @@ class _NextAppointmentCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: AppColors.primarySoft.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(AppRadii.field),
