@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../auth/application/auth_providers.dart";
 import "../../notifications/application/notification_providers.dart";
 import "../../notifications/domain/app_notification.dart";
@@ -102,7 +103,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 });
                 return ListView.builder(
                   controller: _scrollController,
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
@@ -112,10 +113,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
                       child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: AppSpacing.xs,
+                        ),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.sm,
                         ),
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.72,
@@ -142,7 +145,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSpacing.md),
               child: Row(
                 children: [
                   Expanded(
@@ -154,7 +157,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       onSubmitted: (_) => _send(user.uid),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   IconButton.filled(
                     onPressed: () => _send(user.uid),
                     icon: const Icon(Icons.send_rounded),

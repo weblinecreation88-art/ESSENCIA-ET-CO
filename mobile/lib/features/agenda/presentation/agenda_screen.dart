@@ -4,6 +4,7 @@ import "package:intl/intl.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../../auth/application/auth_providers.dart";
 import "../application/agenda_providers.dart";
@@ -46,7 +47,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                 controller: titleController,
                 decoration: const InputDecoration(labelText: "Titre"),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               TextField(
                 controller: subtitleController,
                 decoration: const InputDecoration(
@@ -54,7 +55,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                   hintText: "Avec Sophie, Salle d'animation...",
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               Row(
                 children: [
                   Expanded(
@@ -159,9 +160,13 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                   height: 76,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.sm,
+                    ),
                     itemCount: _strip.length,
-                    separatorBuilder: (context, index) => const SizedBox(width: 8),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: AppSpacing.sm),
                     itemBuilder: (context, index) {
                       final day = _strip[index];
                       final isSelected = DateUtils.isSameDay(day, _selectedDay);
@@ -184,7 +189,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                                   color: isSelected ? Colors.white70 : AppColors.textMuted,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: AppSpacing.xs),
                               Text(
                                 "${day.day}",
                                 style: TextStyle(
@@ -216,9 +221,10 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                         );
                       }
                       return ListView.separated(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(AppSpacing.xl),
                         itemCount: events.length,
-                        separatorBuilder: (context, index) => const SizedBox(height: 10),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: AppSpacing.sm),
                         itemBuilder: (context, index) {
                           final event = events[index];
                           return Dismissible(
@@ -226,7 +232,9 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                             direction: DismissDirection.endToStart,
                             background: Container(
                               alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.xl,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.secondary.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(AppRadii.field),
@@ -239,7 +247,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                             onDismissed: (_) =>
                                 ref.read(agendaRepositoryProvider).remove(user.uid, event.id),
                             child: Container(
-                              padding: const EdgeInsets.all(14),
+                              padding: const EdgeInsets.all(AppSpacing.md),
                               decoration: BoxDecoration(
                                 color: Theme.of(context).colorScheme.surface,
                                 borderRadius: BorderRadius.circular(AppRadii.field),
@@ -254,7 +262,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                                       color: AppColors.primary,
                                     ),
                                   ),
-                                  const SizedBox(width: 14),
+                                  const SizedBox(width: AppSpacing.md),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,

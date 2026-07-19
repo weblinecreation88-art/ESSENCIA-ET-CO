@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../../auth/application/auth_providers.dart";
 import "../../auth/domain/user_profile.dart";
@@ -64,10 +65,10 @@ class _NewConversationScreenState extends ConsumerState<NewConversationScreen> {
                     return AbsorbPointer(
                       absorbing: _isOpening,
                       child: ListView.separated(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(AppSpacing.xl),
                         itemCount: profiles.length,
                         separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
+                            const SizedBox(height: AppSpacing.sm),
                         itemBuilder: (context, index) {
                           final other = profiles[index];
                           final displayName =

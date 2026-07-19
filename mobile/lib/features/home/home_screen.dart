@@ -4,6 +4,7 @@ import "package:go_router/go_router.dart";
 
 import "../../core/theme/app_colors.dart";
 import "../../core/theme/app_radii.dart";
+import "../../core/theme/app_spacing.dart";
 import "../../core/theme/app_theme.dart";
 import "../auth/application/auth_providers.dart";
 import "../notifications/application/notification_providers.dart";
@@ -100,12 +101,17 @@ class _AccueilTab extends StatelessWidget {
           Transform.translate(
             offset: const Offset(0, -20),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
               child: _NextAppointmentCard(),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.xl,
+              AppSpacing.sm,
+              AppSpacing.xl,
+              AppSpacing.xl,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -113,13 +119,13 @@ class _AccueilTab extends StatelessWidget {
                   "Accès rapides",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.xs),
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
+                  mainAxisSpacing: AppSpacing.sm,
+                  crossAxisSpacing: AppSpacing.sm,
                   childAspectRatio: 1.5,
                   children: [
                     for (final action in quickActions)
@@ -149,10 +155,10 @@ class _HomeHero extends ConsumerWidget {
     final user = ref.watch(authRepositoryProvider).currentUser;
     return Container(
       padding: EdgeInsets.fromLTRB(
-        20,
-        MediaQuery.of(context).padding.top + 8,
-        20,
-        32,
+        AppSpacing.xl,
+        MediaQuery.of(context).padding.top + AppSpacing.sm,
+        AppSpacing.xl,
+        AppSpacing.xxxl,
       ),
       decoration: const BoxDecoration(
         gradient: AppColors.gradient,
@@ -171,7 +177,7 @@ class _HomeHero extends ConsumerWidget {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   "Voici vos activités du jour",
                   style: Theme.of(
@@ -210,7 +216,7 @@ class _HomeHero extends ConsumerWidget {
                         right: -2,
                         top: -2,
                         child: Container(
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(AppSpacing.xs),
                           decoration: const BoxDecoration(
                             color: AppColors.secondary,
                             shape: BoxShape.circle,
@@ -249,7 +255,7 @@ class _NextAppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadii.card),
@@ -269,7 +275,7 @@ class _NextAppointmentCard extends StatelessWidget {
               color: AppColors.primaryDark,
             ),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +284,7 @@ class _NextAppointmentCard extends StatelessWidget {
                   "Prochain rendez-vous",
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   "Coiffeur — Aujourd'hui 14h30",
                   style: Theme.of(context).textTheme.titleMedium,
@@ -313,7 +319,7 @@ class _QuickActionCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppRadii.card),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadii.card),
@@ -323,7 +329,7 @@ class _QuickActionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: AppColors.primary),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             SizedBox(
               height: 36,
               child: Center(

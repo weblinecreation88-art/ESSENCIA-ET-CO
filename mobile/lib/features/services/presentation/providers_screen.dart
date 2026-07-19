@@ -4,6 +4,7 @@ import "package:go_router/go_router.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../../auth/application/auth_providers.dart";
 import "../../auth/domain/user_profile.dart";
@@ -23,8 +24,8 @@ class ProvidersScreen extends ConsumerWidget {
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.all(20),
-            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(AppSpacing.xl),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(AppRadii.card),
@@ -41,7 +42,7 @@ class ProvidersScreen extends ConsumerWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
                     category.label,
@@ -67,10 +68,15 @@ class ProvidersScreen extends ConsumerWidget {
                   );
                 }
                 return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.xl,
+                    0,
+                    AppSpacing.xl,
+                    AppSpacing.xl,
+                  ),
                   itemCount: providers.length,
                   separatorBuilder: (context, index) =>
-                      const SizedBox(height: 10),
+                      const SizedBox(height: AppSpacing.sm),
                   itemBuilder: (context, index) {
                     final provider = providers[index];
                     final name = provider.displayName?.isNotEmpty == true

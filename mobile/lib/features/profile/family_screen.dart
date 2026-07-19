@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../../core/theme/app_colors.dart";
 import "../../core/theme/app_radii.dart";
+import "../../core/theme/app_spacing.dart";
 import "../../core/theme/app_theme.dart";
 import "../auth/application/auth_providers.dart";
 import "application/profile_providers.dart";
@@ -27,7 +28,7 @@ class FamilyScreen extends ConsumerWidget {
               controller: nameController,
               decoration: const InputDecoration(labelText: "Nom"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             TextField(
               controller: relationController,
               decoration: const InputDecoration(
@@ -35,7 +36,7 @@ class FamilyScreen extends ConsumerWidget {
                 hintText: "Fille, Fils, Petit-fils...",
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             TextField(
               controller: phoneController,
               keyboardType: TextInputType.phone,
@@ -102,13 +103,14 @@ class FamilyScreen extends ConsumerWidget {
                   );
                 }
                 return ListView.separated(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppSpacing.xl),
                   itemCount: proches.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 10),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: AppSpacing.sm),
                   itemBuilder: (context, index) {
                     final proche = proches[index];
                     return Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(AppRadii.field),
@@ -128,7 +130,7 @@ class FamilyScreen extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: AppSpacing.md),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

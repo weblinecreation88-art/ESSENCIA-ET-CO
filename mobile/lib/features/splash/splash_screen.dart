@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
 import "../../core/theme/app_colors.dart";
+import "../../core/theme/app_spacing.dart";
 import "../auth/application/auth_providers.dart";
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -48,14 +49,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
               Text(
                 "Essencia & Co",
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 "Le lien qui prend soin de l'essentiel",
                 style: Theme.of(

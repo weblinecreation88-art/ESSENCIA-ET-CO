@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../core/theme/app_colors.dart";
+import "../../../core/theme/app_spacing.dart";
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -14,7 +15,10 @@ class WelcomeScreen extends StatelessWidget {
         decoration: const BoxDecoration(gradient: AppColors.gradient),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xxl,
+              vertical: AppSpacing.xxl,
+            ),
             child: Column(
               children: [
                 Container(
@@ -30,14 +34,14 @@ class WelcomeScreen extends StatelessWidget {
                     size: 44,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: AppSpacing.xxl),
                 Text(
                   "Essencia & Co",
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   "Le lien qui prend soin de l'essentiel",
                   textAlign: TextAlign.center,
@@ -45,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                     context,
                   ).textTheme.bodyLarge?.copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 Text(
                   "Rapprocher les cœurs, faciliter le quotidien.",
                   textAlign: TextAlign.center,
@@ -53,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: AppSpacing.xxl),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: Image.asset(
@@ -62,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: AppSpacing.xxxl),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -74,7 +78,7 @@ class WelcomeScreen extends StatelessWidget {
                     child: const Text("Se connecter"),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton(

@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/widgets/google_logo.dart";
 import "../application/auth_providers.dart";
 import "../data/auth_repository.dart";
@@ -93,7 +94,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
           child: Form(
             key: _formKey,
             child: Column(
@@ -107,7 +108,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.xs),
                 SizedBox(
                   width: double.infinity,
                   child: Text(
@@ -116,7 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: AppSpacing.xxl),
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -134,7 +135,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
@@ -165,13 +166,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 if (_errorMessage != null) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     _errorMessage!,
                     style: TextStyle(color: Theme.of(context).colorScheme.error),
                   ),
                 ],
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -188,18 +189,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         : const Text("Se connecter"),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: AppSpacing.xxl),
                 Row(
                   children: [
                     Expanded(child: Divider(color: Theme.of(context).colorScheme.outlineVariant)),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.md,
+                      ),
                       child: Text("ou", style: Theme.of(context).textTheme.bodySmall),
                     ),
                     Expanded(child: Divider(color: Theme.of(context).colorScheme.outlineVariant)),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
@@ -214,7 +217,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     label: const Text("Continuer avec Google"),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
@@ -229,7 +232,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     label: const Text("Continuer avec Apple"),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 Center(
                   child: TextButton(
                     onPressed: () => context.push("/signup"),

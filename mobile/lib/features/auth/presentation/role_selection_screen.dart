@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../application/auth_providers.dart";
 import "../domain/user_role.dart";
@@ -43,24 +44,24 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(AppSpacing.xxl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Je suis...", style: Theme.of(context).textTheme.displayLarge),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 "Choisissez le profil qui vous correspond.",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.xxxl),
               Expanded(
                 child: AbsorbPointer(
                   absorbing: _isSubmitting,
                   child: GridView.count(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: AppSpacing.lg,
+                    crossAxisSpacing: AppSpacing.lg,
                     childAspectRatio: 0.95,
                     children: [
                       for (final role in UserRole.values)
@@ -70,7 +71,7 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
                 ),
               ),
               if (_isSubmitting) ...[
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 const Center(child: CircularProgressIndicator()),
               ],
             ],
@@ -106,7 +107,7 @@ class _RoleCard extends StatelessWidget {
               backgroundColor: role.color.withValues(alpha: 0.12),
               backgroundImage: AssetImage(role.defaultAvatarAsset),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.md),
             Text(
               role.label,
               style: Theme.of(context).textTheme.titleMedium,

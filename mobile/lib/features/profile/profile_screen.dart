@@ -7,6 +7,7 @@ import "package:image_picker/image_picker.dart";
 
 import "../../core/theme/app_colors.dart";
 import "../../core/theme/app_radii.dart";
+import "../../core/theme/app_spacing.dart";
 import "../../core/theme/app_theme.dart";
 import "../auth/application/auth_providers.dart";
 import "../auth/domain/user_profile.dart";
@@ -108,7 +109,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               SliverToBoxAdapter(
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(24, 32, 24, 40),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.xxl,
+                    AppSpacing.xxxl,
+                    AppSpacing.xxl,
+                    AppSpacing.xxxl,
+                  ),
                   decoration: const BoxDecoration(gradient: AppColors.gradient),
                   child: Column(
                     children: [
@@ -133,7 +139,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   : null,
                             ),
                             Container(
-                              padding: const EdgeInsets.all(6),
+                              padding: const EdgeInsets.all(AppSpacing.xs),
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
@@ -147,7 +153,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppSpacing.lg),
                       Text(
                         profile.displayName?.isNotEmpty == true
                             ? profile.displayName!
@@ -156,7 +162,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           context,
                         ).textTheme.titleMedium?.copyWith(color: Colors.white),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSpacing.xs),
                       Text(
                         profile.role.label,
                         style: Theme.of(
@@ -168,7 +174,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
               ),
               SliverPadding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 sliver: SliverList.list(
                   children: [
                     _ProfileMenuTile(
@@ -198,7 +204,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       label: "Aide et support",
                       onTap: () => context.push("/profile/help"),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppSpacing.md),
                     OutlinedButton.icon(
                       onPressed: () async {
                         await ref.read(authRepositoryProvider).signOut();
@@ -232,7 +238,7 @@ class _ProfileMenuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadii.field),

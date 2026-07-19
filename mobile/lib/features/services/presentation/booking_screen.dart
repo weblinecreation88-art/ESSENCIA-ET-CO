@@ -5,6 +5,7 @@ import "package:intl/intl.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../../agenda/application/agenda_providers.dart";
 import "../../agenda/domain/agenda_event.dart";
@@ -128,21 +129,21 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
       body: user == null
           ? const Center(child: Text("Aucun utilisateur connecté."))
           : ListView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(AppSpacing.xl),
               children: [
                 Text("Date", style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 OutlinedButton.icon(
                   onPressed: _pickDate,
                   icon: const Icon(Icons.calendar_today_rounded, size: 18),
                   label: Text(DateFormat.yMMMEd("fr_FR").format(_selectedDate)),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 Text("Heure", style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
                   children: [
                     for (final time in _timeSlots)
                       ChoiceChip(
@@ -158,14 +159,14 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                       ),
                   ],
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: AppSpacing.xxl),
                 Text(
                   "Récapitulatif",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(AppRadii.card),
@@ -184,7 +185,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: AppSpacing.xxl),
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
@@ -216,7 +217,7 @@ class _RecapRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

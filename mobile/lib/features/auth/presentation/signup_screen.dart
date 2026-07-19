@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
+import "../../../core/theme/app_spacing.dart";
 import "../application/auth_providers.dart";
 import "../data/auth_repository.dart";
 
@@ -56,7 +57,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
           child: Form(
             key: _formKey,
             child: Column(
@@ -66,12 +67,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   "Créer un compte",
                   style: Theme.of(context).textTheme.displayLarge,
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   "Rejoignez Essencia & Co en quelques secondes",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: AppSpacing.xxl),
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -89,7 +90,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
@@ -112,7 +113,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 TextFormField(
                   controller: _confirmController,
                   obscureText: _obscurePassword,
@@ -127,13 +128,13 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   },
                 ),
                 if (_errorMessage != null) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     _errorMessage!,
                     style: TextStyle(color: Theme.of(context).colorScheme.error),
                   ),
                 ],
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -150,7 +151,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                         : const Text("Créer un compte"),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 Center(
                   child: TextButton(
                     onPressed: () => context.push("/login"),

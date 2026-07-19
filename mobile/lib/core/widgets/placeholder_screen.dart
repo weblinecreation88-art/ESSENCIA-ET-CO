@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 
 import "../theme/app_colors.dart";
+import "../theme/app_spacing.dart";
 
 /// Écran générique utilisé par les routes des futures fonctionnalités
 /// (agenda, services, réservation, notifications...) tant qu'elles ne sont
@@ -32,9 +33,9 @@ class PlaceholderScreen extends StatelessWidget {
               ),
               child: Icon(icon, size: 32, color: AppColors.primaryDark),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.xl),
             Text("Écran à venir", style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               title,
               style: Theme.of(context).textTheme.bodyMedium,

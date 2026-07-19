@@ -5,6 +5,7 @@ import "package:intl/intl.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
+import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../../auth/application/auth_providers.dart";
 import "../application/chat_providers.dart";
@@ -37,7 +38,7 @@ class ConversationsScreen extends ConsumerWidget {
                 if (conversations.isEmpty) {
                   return Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(AppSpacing.xxl),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -46,12 +47,12 @@ class ConversationsScreen extends ConsumerWidget {
                             size: 40,
                             color: AppColors.textMuted,
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           const Text(
                             "Aucune conversation pour l'instant.",
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: AppSpacing.lg),
                           FilledButton(
                             onPressed: () => context.push("/chat/new"),
                             child: const Text("Démarrer une conversation"),
@@ -62,9 +63,10 @@ class ConversationsScreen extends ConsumerWidget {
                   );
                 }
                 return ListView.separated(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppSpacing.xl),
                   itemCount: conversations.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 10),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: AppSpacing.sm),
                   itemBuilder: (context, index) {
                     final conversation = conversations[index];
                     final other = conversation.otherParticipant(user.uid);

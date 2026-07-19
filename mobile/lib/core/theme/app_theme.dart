@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 import "app_colors.dart";
 import "app_radii.dart";
+import "app_spacing.dart";
 import "app_text_styles.dart";
 
 class AppTheme {
@@ -47,7 +48,10 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.surface,
-        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xxl,
+          vertical: AppSpacing.lg,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadii.button),
         ),
@@ -58,7 +62,10 @@ class AppTheme {
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.primary,
         side: const BorderSide(color: AppColors.primarySoft),
-        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xxl,
+          vertical: AppSpacing.lg,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadii.button),
         ),
@@ -68,7 +75,10 @@ class AppTheme {
       filled: true,
       fillColor: AppColors.surface,
       hintStyle: TextStyle(color: AppColors.textDisabled),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppRadii.field),
         borderSide: const BorderSide(color: AppColors.border),
