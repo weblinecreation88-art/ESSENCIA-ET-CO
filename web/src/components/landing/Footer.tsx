@@ -7,15 +7,15 @@ export function Footer() {
         <div className="flex items-center gap-[11px]">
           <Image
             src="/logo.png"
-            alt="Essencia & Co"
+            alt="E-sensya & Co"
             width={34}
             height={34}
             className="rounded-[11px]"
           />
-          <span className="font-heading font-bold text-title">Essencia &amp; Co</span>
+          <span className="font-heading font-bold text-title">E-sensya &amp; Co</span>
         </div>
         <p>Le lien qui prend soin de l&apos;essentiel.</p>
-        <p>&copy; {new Date().getFullYear()} Essencia &amp; Co. Tous droits réservés.</p>
+        <p>&copy; {new Date().getFullYear()} E-sensya &amp; Co. Tous droits réservés.</p>
       </div>
     </footer>
   );

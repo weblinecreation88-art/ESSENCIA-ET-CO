@@ -80,7 +80,7 @@ export function Features() {
             Tout ce qu&apos;il faut, rien de superflu
           </h2>
           <p className="text-lg leading-relaxed text-text-muted">
-            Le noyau fonctionnel d&apos;Essencia &amp; Co, pensé pour l&apos;essentiel.
+            Le noyau fonctionnel d&apos;E-sensya &amp; Co, pensé pour l&apos;essentiel.
           </p>
         </div>
         <div className="mt-14 grid gap-[22px] sm:grid-cols-2 lg:grid-cols-4">

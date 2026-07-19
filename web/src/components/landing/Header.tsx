@@ -15,14 +15,14 @@ export function Header() {
         <Link href="#top" className="flex items-center gap-3">
           <Image
             src="/logo.png"
-            alt="Essencia & Co"
+            alt="E-sensya & Co"
             width={46}
             height={46}
             className="rounded-[15px] shadow-[0_8px_22px_rgba(70,40,120,0.14)]"
             priority
           />
           <span className="whitespace-nowrap font-heading text-xl font-bold tracking-tight text-title">
-            Essencia &amp; Co
+            E-sensya &amp; Co
           </span>
         </Link>
         <nav className="hidden items-center gap-7 text-base font-medium text-text md:flex">

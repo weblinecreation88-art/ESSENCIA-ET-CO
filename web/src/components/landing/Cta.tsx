@@ -17,7 +17,7 @@ export function Cta() {
         <div className="relative grid items-center gap-12 p-[64px_60px] lg:grid-cols-[1.25fr_1fr]">
           <div>
             <h2 className="text-[clamp(1.9rem,3.2vw,2.6rem)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
-              Prêt à tester Essencia &amp; Co dans votre établissement ?
+              Prêt à tester E-sensya &amp; Co dans votre établissement ?
             </h2>
             <p className="mt-[18px] max-w-xl text-lg leading-relaxed text-white/[0.92]">
               Nous lançons un pilote avec quelques établissements pour valider le noyau
@@ -25,7 +25,7 @@ export function Cta() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3.5">
               <a
-                href="mailto:contact@essencia-co.fr?subject=Demande%20de%20pilote%20Essencia%20%26%20Co"
+                href="mailto:contact@essencia-co.fr?subject=Demande%20de%20pilote%20E-sensya%20%26%20Co"
                 className="rounded-[16px] bg-white px-7 py-[15px] text-[1.05rem] font-bold text-primary-dark shadow-[0_12px_30px_rgba(0,0,0,0.16)] transition hover:-translate-y-0.5 hover:text-primary active:scale-95"
               >
                 Demander une démo pilote
@@ -48,7 +48,7 @@ export function Cta() {
           <div className="mx-auto w-full max-w-[290px]">
             <Image
               src="/illustrations/caregivers-wheelchair.png"
-              alt="Deux aidants accompagnant une résidente, illustration Essencia & Co"
+              alt="Deux aidants accompagnant une résidente, illustration E-sensya & Co"
               width={800}
               height={800}
               className="block w-full rounded-[24px] shadow-[0_20px_44px_rgba(0,0,0,0.2)]"

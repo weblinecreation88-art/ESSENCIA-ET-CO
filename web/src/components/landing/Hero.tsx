@@ -49,7 +49,7 @@ export function Hero() {
             </span>
           </h1>
           <p className="max-w-xl text-[clamp(1.12rem,1.6vw,1.28rem)] leading-relaxed text-text">
-            Essencia &amp; Co rapproche résidents, familles, équipes et prestataires :
+            E-sensya &amp; Co rapproche résidents, familles, équipes et prestataires :
             messagerie, agenda, réservation de services et notifications, réunis dans
             une application simple et rassurante.
           </p>
@@ -95,7 +95,7 @@ export function Hero() {
           />
           <Image
             src="/illustrations/hero-family.png"
-            alt="Une résidente entourée de sa famille, illustration Essencia & Co"
+            alt="Une résidente entourée de sa famille, illustration E-sensya & Co"
             width={1200}
             height={1200}
             className="relative block w-full rounded-[32px]"

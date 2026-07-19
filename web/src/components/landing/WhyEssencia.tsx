@@ -35,7 +35,7 @@ export function WhyEssencia() {
           />
           <Image
             src="/illustrations/family-wheelchair.png"
-            alt="Une résidente en fauteuil roulant entourée de sa famille, illustration Essencia & Co"
+            alt="Une résidente en fauteuil roulant entourée de sa famille, illustration E-sensya & Co"
             width={1200}
             height={1200}
             className="relative block w-full rounded-[30px] shadow-[0_26px_56px_rgba(70,40,120,0.14)]"
