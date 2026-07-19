@@ -5,7 +5,7 @@ const trust = ["Conforme RGPD", "Sans engagement", "Accompagnement inclus"];
 
 export function Cta() {
   return (
-    <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
+    <section id="contact" className="mx-auto max-w-6xl px-6 pt-20 pb-12">
       <div
         className="relative overflow-hidden rounded-[32px] shadow-[0_30px_70px_rgba(111,73,200,0.35)]"
         style={{
@@ -14,7 +14,7 @@ export function Cta() {
       >
         <div className="absolute -right-10 -top-20 h-80 w-80 rounded-full bg-white/10" />
         <div className="absolute -bottom-32 -left-16 h-[340px] w-[340px] rounded-full bg-[rgba(231,94,157,0.22)]" />
-        <div className="relative grid items-center gap-12 p-[64px_60px] lg:grid-cols-[1.25fr_1fr]">
+        <div className="relative grid items-center gap-10 px-[48px] py-[44px] lg:grid-cols-[1.25fr_1fr] lg:px-[60px]">
           <div>
             <h2 className="text-[clamp(1.9rem,3.2vw,2.6rem)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
               Prêt à tester E-sensya &amp; Co dans votre établissement ?
