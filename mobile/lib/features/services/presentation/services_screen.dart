@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
 import "../../../core/theme/app_theme.dart";
 import "../domain/service_category.dart";
@@ -18,7 +17,7 @@ class ServicesScreen extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 14,
         crossAxisSpacing: 14,
-        childAspectRatio: 1.3,
+        childAspectRatio: 1.05,
         children: [
           for (final category in ServiceCategory.values)
             InkWell(
@@ -35,14 +34,14 @@ class ServicesScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: AppColors.primarySoft.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(AppRadii.field),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppRadii.field),
+                      child: Image.asset(
+                        category.imageAsset,
+                        width: 64,
+                        height: 64,
+                        fit: BoxFit.cover,
                       ),
-                      child: Icon(category.icon, color: AppColors.primaryDark),
                     ),
                     const SizedBox(height: 12),
                     Text(

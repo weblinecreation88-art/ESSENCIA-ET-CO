@@ -26,6 +26,20 @@ enum ServiceCategory {
     ServiceCategory.autres => Icons.more_horiz_rounded,
   };
 
+  /// Illustration de catégorie, affichée sur les tuiles de services.
+  String get imageAsset => switch (this) {
+    ServiceCategory.coiffure => "assets/images/services/coiffure.png",
+    ServiceCategory.beauteBienEtre =>
+      "assets/images/services/beaute_bien_etre.png",
+    ServiceCategory.pedicurePodologue =>
+      "assets/images/services/pedicure_podologue.png",
+    ServiceCategory.massageDetente =>
+      "assets/images/services/massage_detente.png",
+    ServiceCategory.activitesAnimations =>
+      "assets/images/services/activites_animations.png",
+    ServiceCategory.autres => "assets/images/services/autres.png",
+  };
+
   String get storageValue => name;
 
   static ServiceCategory fromStorage(String value) =>

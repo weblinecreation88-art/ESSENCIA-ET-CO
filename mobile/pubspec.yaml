@@ -85,6 +85,7 @@ flutter:
     - assets/images/avatars/family.png
     - assets/images/avatars/professional.png
     - assets/images/avatars/provider.png
+    - assets/images/services/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
