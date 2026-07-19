@@ -120,18 +120,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             CircleAvatar(
                               radius: 44,
                               backgroundColor: Colors.white24,
-                              backgroundImage: profile.photoUrl != null
+                              backgroundImage: AssetImage(
+                                profile.role.defaultAvatarAsset,
+                              ),
+                              foregroundImage: profile.photoUrl != null
                                   ? NetworkImage(profile.photoUrl!)
                                   : null,
                               child: _isUploadingPhoto
                                   ? const CircularProgressIndicator(
                                       color: Colors.white,
-                                    )
-                                  : profile.photoUrl == null
-                                  ? const Icon(
-                                      Icons.person_rounded,
-                                      color: Colors.white,
-                                      size: 40,
                                     )
                                   : null,
                             ),

@@ -101,14 +101,10 @@ class _RoleCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: role.color.withValues(alpha: 0.12),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(role.icon, color: role.color, size: 28),
+            CircleAvatar(
+              radius: 34,
+              backgroundColor: role.color.withValues(alpha: 0.12),
+              backgroundImage: AssetImage(role.defaultAvatarAsset),
             ),
             const SizedBox(height: 14),
             Text(

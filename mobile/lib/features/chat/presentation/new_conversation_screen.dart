@@ -88,14 +88,8 @@ class _NewConversationScreenState extends ConsumerState<NewConversationScreen> {
                                 backgroundColor: other.role.color.withValues(
                                   alpha: 0.15,
                                 ),
-                                child: Text(
-                                  displayName.isNotEmpty
-                                      ? displayName[0].toUpperCase()
-                                      : "?",
-                                  style: TextStyle(
-                                    color: other.role.color,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                backgroundImage: AssetImage(
+                                  other.role.defaultAvatarAsset,
                                 ),
                               ),
                               title: Text(displayName),

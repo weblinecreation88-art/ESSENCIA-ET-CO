@@ -53,14 +53,8 @@ class ProvidersScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(AppRadii.field),
                   ),
                   leading: CircleAvatar(
-                    backgroundColor: AppColors.roleProvider.withValues(alpha: 0.15),
-                    child: Text(
-                      name.isNotEmpty ? name[0].toUpperCase() : "?",
-                      style: const TextStyle(
-                        color: AppColors.roleProvider,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    backgroundColor: AppColors.roleProvider,
+                    backgroundImage: AssetImage(provider.role.defaultAvatarAsset),
                   ),
                   title: Text(name),
                   subtitle: const Text("Prestataire"),

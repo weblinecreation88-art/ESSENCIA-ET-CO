@@ -31,6 +31,14 @@ enum UserRole {
     UserRole.provider => Icons.local_shipping_rounded,
   };
 
+  /// Avatar par défaut affiché tant que l'utilisateur n'a pas mis sa propre photo.
+  String get defaultAvatarAsset => switch (this) {
+    UserRole.resident => "assets/images/avatars/resident.png",
+    UserRole.family => "assets/images/avatars/family.png",
+    UserRole.professional => "assets/images/avatars/professional.png",
+    UserRole.provider => "assets/images/avatars/provider.png",
+  };
+
   /// Valeur stockée dans Firestore (`users/{uid}.role`).
   String get storageValue => name;
 

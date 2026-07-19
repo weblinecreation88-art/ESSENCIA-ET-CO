@@ -83,15 +83,9 @@ class ConversationsScreen extends ConsumerWidget {
                               (other?.role.color ?? AppColors.primary).withValues(
                             alpha: 0.15,
                           ),
-                          child: Text(
-                            other != null && other.name.isNotEmpty
-                                ? other.name[0].toUpperCase()
-                                : "?",
-                            style: TextStyle(
-                              color: other?.role.color ?? AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          backgroundImage: other != null
+                              ? AssetImage(other.role.defaultAvatarAsset)
+                              : null,
                         ),
                         title: Text(other?.name ?? "Utilisateur"),
                         subtitle: Text(
