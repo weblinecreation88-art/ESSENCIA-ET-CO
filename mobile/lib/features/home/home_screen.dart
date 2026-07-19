@@ -113,13 +113,13 @@ class _AccueilTab extends StatelessWidget {
                   "Accès rapides",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 6),
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
                   childAspectRatio: 1.5,
                   children: [
                     for (final action in quickActions)
