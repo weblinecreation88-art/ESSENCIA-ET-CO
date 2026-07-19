@@ -69,7 +69,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  "Rejoignez Essencia & Co en quelques secondes",
+                  "Rejoignez E-sensya & Co en quelques secondes",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.xxl),

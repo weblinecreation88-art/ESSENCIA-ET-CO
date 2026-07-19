@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-/// Palette Essencia & Co — mêmes valeurs que le design system web (web/src/app/globals.css).
+/// Palette E-sensya & Co — mêmes valeurs que le design system web (web/src/app/globals.css).
 class AppColors {
   AppColors._();
 

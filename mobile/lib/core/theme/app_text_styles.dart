@@ -3,7 +3,7 @@ import "package:google_fonts/google_fonts.dart";
 
 import "app_colors.dart";
 
-/// Typographie Essencia & Co : titres en Plus Jakarta Sans, texte en Inter.
+/// Typographie E-sensya & Co : titres en Plus Jakarta Sans, texte en Inter.
 class AppTextStyles {
   AppTextStyles._();
 

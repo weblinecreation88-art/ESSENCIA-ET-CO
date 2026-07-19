@@ -1,5 +1,28 @@
 import "user_role.dart";
 
+class NotificationPreferences {
+  const NotificationPreferences({
+    this.notifyMessages = true,
+    this.notifyBookings = true,
+  });
+
+  final bool notifyMessages;
+  final bool notifyBookings;
+
+  factory NotificationPreferences.fromMap(Map<String, dynamic>? map) {
+    if (map == null) return const NotificationPreferences();
+    return NotificationPreferences(
+      notifyMessages: map["notifyMessages"] as bool? ?? true,
+      notifyBookings: map["notifyBookings"] as bool? ?? true,
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+    "notifyMessages": notifyMessages,
+    "notifyBookings": notifyBookings,
+  };
+}
+
 class UserProfile {
   const UserProfile({
     required this.uid,
@@ -7,6 +30,7 @@ class UserProfile {
     required this.role,
     this.displayName,
     this.photoUrl,
+    this.preferences = const NotificationPreferences(),
   });
 
   final String uid;
@@ -14,6 +38,7 @@ class UserProfile {
   final UserRole role;
   final String? displayName;
   final String? photoUrl;
+  final NotificationPreferences preferences;
 
   factory UserProfile.fromMap(String uid, Map<String, dynamic> map) {
     return UserProfile(
@@ -22,6 +47,9 @@ class UserProfile {
       role: UserRole.fromStorage(map["role"] as String),
       displayName: map["displayName"] as String?,
       photoUrl: map["photoUrl"] as String?,
+      preferences: NotificationPreferences.fromMap(
+        map["preferences"] as Map<String, dynamic>?,
+      ),
     );
   }
 
@@ -31,6 +59,7 @@ class UserProfile {
     "role": role.storageValue,
     if (displayName != null) "displayName": displayName,
     if (photoUrl != null) "photoUrl": photoUrl,
+    "preferences": preferences.toMap(),
   };
 
   UserProfile copyWith({String? displayName, String? photoUrl}) {
@@ -40,6 +69,7 @@ class UserProfile {
       role: role,
       displayName: displayName ?? this.displayName,
       photoUrl: photoUrl ?? this.photoUrl,
+      preferences: preferences,
     );
   }
 }

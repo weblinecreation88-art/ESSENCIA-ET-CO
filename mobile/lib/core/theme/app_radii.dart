@@ -1,4 +1,4 @@
-/// Rayons de bordure Essencia & Co (mêmes valeurs que le web).
+/// Rayons de bordure E-sensya & Co (mêmes valeurs que le web).
 class AppRadii {
   AppRadii._();
 

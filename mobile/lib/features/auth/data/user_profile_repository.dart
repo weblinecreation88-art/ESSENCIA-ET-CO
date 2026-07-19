@@ -40,6 +40,13 @@ class UserProfileRepository {
     return _users.doc(uid).update({"photoUrl": photoUrl});
   }
 
+  Future<void> updatePreferences({
+    required String uid,
+    required NotificationPreferences preferences,
+  }) {
+    return _users.doc(uid).update({"preferences": preferences.toMap()});
+  }
+
   /// Liste tous les utilisateurs sauf `excludeUid`, utilisée pour démarrer
   /// une nouvelle conversation.
   Stream<List<UserProfile>> watchAll({required String excludeUid}) {

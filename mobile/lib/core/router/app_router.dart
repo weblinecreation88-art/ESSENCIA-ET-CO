@@ -1,7 +1,5 @@
-import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-import "../widgets/placeholder_screen.dart";
 import "../../features/splash/splash_screen.dart";
 import "../../features/home/home_screen.dart";
 import "../../features/auth/presentation/welcome_screen.dart";
@@ -10,6 +8,9 @@ import "../../features/auth/presentation/signup_screen.dart";
 import "../../features/auth/presentation/role_selection_screen.dart";
 import "../../features/profile/profile_screen.dart";
 import "../../features/profile/family_screen.dart";
+import "../../features/profile/preferences_screen.dart";
+import "../../features/profile/settings_screen.dart";
+import "../../features/profile/help_screen.dart";
 import "../../features/chat/presentation/conversations_screen.dart";
 import "../../features/chat/presentation/new_conversation_screen.dart";
 import "../../features/chat/presentation/chat_screen.dart";
@@ -19,6 +20,7 @@ import "../../features/services/presentation/providers_screen.dart";
 import "../../features/services/presentation/booking_screen.dart";
 import "../../features/services/domain/service_category.dart";
 import "../../features/notifications/presentation/notifications_screen.dart";
+import "../../features/photos/presentation/photos_screen.dart";
 
 final GoRouter appRouter = GoRouter(
   initialLocation: "/splash",
@@ -42,24 +44,15 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: "/profile/preferences",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Mes préférences",
-        icon: Icons.tune_rounded,
-      ),
+      builder: (context, state) => const PreferencesScreen(),
     ),
     GoRoute(
       path: "/profile/settings",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Paramètres",
-        icon: Icons.settings_rounded,
-      ),
+      builder: (context, state) => const SettingsScreen(),
     ),
     GoRoute(
       path: "/profile/help",
-      builder: (context, state) => const PlaceholderScreen(
-        title: "Aide et support",
-        icon: Icons.help_rounded,
-      ),
+      builder: (context, state) => const HelpScreen(),
     ),
     GoRoute(
       path: "/chat",
@@ -104,6 +97,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: "/notifications",
       builder: (context, state) => const NotificationsScreen(),
+    ),
+    GoRoute(
+      path: "/photos",
+      builder: (context, state) => const PhotosScreen(),
     ),
   ],
 );

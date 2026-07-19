@@ -36,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.xxl),
                 Text(
-                  "Essencia & Co",
+                  "E-sensya & Co",
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
                     color: Colors.white,
                   ),

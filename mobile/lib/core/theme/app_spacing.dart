@@ -1,4 +1,4 @@
-/// Échelle d'espacement Essencia & Co, à utiliser pour tous les paddings,
+/// Échelle d'espacement E-sensya & Co, à utiliser pour tous les paddings,
 /// gaps et marges plutôt que des valeurs ad hoc, pour un rythme visuel
 /// cohérent dans toute l'app.
 class AppSpacing {

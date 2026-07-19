@@ -96,20 +96,27 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         ),
       );
       final notificationRepository = ref.read(notificationRepositoryProvider);
-      await notificationRepository.create(
-        recipientUid: widget.providerId,
-        type: NotificationType.booking,
-        title: "Nouvelle réservation",
-        body: "$residentName — ${widget.category.label} le $dateLabel",
-        relatedId: bookingId,
-      );
-      await notificationRepository.create(
-        recipientUid: residentId,
-        type: NotificationType.booking,
-        title: "Réservation confirmée",
-        body: "${widget.category.label} avec ${widget.providerName} le $dateLabel",
-        relatedId: bookingId,
-      );
+      final provider = await ref
+          .read(userProfileRepositoryProvider)
+          .fetch(widget.providerId);
+      if (provider?.preferences.notifyBookings ?? true) {
+        await notificationRepository.create(
+          recipientUid: widget.providerId,
+          type: NotificationType.booking,
+          title: "Nouvelle réservation",
+          body: "$residentName — ${widget.category.label} le $dateLabel",
+          relatedId: bookingId,
+        );
+      }
+      if (resident?.preferences.notifyBookings ?? true) {
+        await notificationRepository.create(
+          recipientUid: residentId,
+          type: NotificationType.booking,
+          title: "Réservation confirmée",
+          body: "${widget.category.label} avec ${widget.providerName} le $dateLabel",
+          relatedId: bookingId,
+        );
+      }
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Réservation confirmée !")),

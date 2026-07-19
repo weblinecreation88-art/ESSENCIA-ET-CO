@@ -8,7 +8,7 @@ import "app_text_styles.dart";
 class AppTheme {
   AppTheme._();
 
-  /// Ombre douce Essencia & Co : `0 8px 25px rgba(70,40,120,.08)`.
+  /// Ombre douce E-sensya & Co : `0 8px 25px rgba(70,40,120,.08)`.
   static const List<BoxShadow> softShadow = [
     BoxShadow(
       color: Color.fromRGBO(70, 40, 120, 0.08),

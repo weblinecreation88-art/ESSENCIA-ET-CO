@@ -75,7 +75,7 @@ class _AccueilTab extends StatelessWidget {
         label: "Messages",
         route: "/chat",
       ),
-      (icon: Icons.photo_camera_rounded, label: "Photos", route: "/services"),
+      (icon: Icons.photo_camera_rounded, label: "Photos", route: "/photos"),
       (
         icon: Icons.calendar_month_rounded,
         label: "Agenda",

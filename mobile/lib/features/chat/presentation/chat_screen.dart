@@ -5,6 +5,7 @@ import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
 import "../../../core/theme/app_spacing.dart";
 import "../../auth/application/auth_providers.dart";
+import "../../auth/domain/user_profile.dart";
 import "../../notifications/application/notification_providers.dart";
 import "../../notifications/domain/app_notification.dart";
 import "../application/chat_providers.dart";
@@ -46,13 +47,18 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final recipient = conversation?.otherParticipant(senderId);
     final sender = conversation?.participants[senderId];
     if (recipient != null) {
-      await ref.read(notificationRepositoryProvider).create(
-        recipientUid: recipient.uid,
-        type: NotificationType.message,
-        title: sender?.name ?? "Nouveau message",
-        body: text,
-        relatedId: widget.chatId,
-      );
+      final UserProfile? recipientProfile = await ref
+          .read(userProfileRepositoryProvider)
+          .fetch(recipient.uid);
+      if (recipientProfile?.preferences.notifyMessages ?? true) {
+        await ref.read(notificationRepositoryProvider).create(
+          recipientUid: recipient.uid,
+          type: NotificationType.message,
+          title: sender?.name ?? "Nouveau message",
+          body: text,
+          relatedId: widget.chatId,
+        );
+      }
     }
   }
 

@@ -21,7 +21,7 @@ class EssenciaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: "Essencia & Co",
+      title: "E-sensya & Co",
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       routerConfig: appRouter,
