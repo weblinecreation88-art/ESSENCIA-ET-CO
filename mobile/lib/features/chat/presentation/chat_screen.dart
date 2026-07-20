@@ -1,5 +1,8 @@
+import "dart:typed_data";
+
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:image_picker/image_picker.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
@@ -42,7 +45,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       senderId: senderId,
       text: text,
     );
+    await _notifyRecipient(senderId, body: text);
+  }
 
+  Future<void> _notifyRecipient(String senderId, {required String body}) async {
+    final chatRepository = ref.read(chatRepositoryProvider);
     final conversation = await chatRepository.getChat(widget.chatId);
     final recipient = conversation?.otherParticipant(senderId);
     final sender = conversation?.participants[senderId];
@@ -55,11 +62,48 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           recipientUid: recipient.uid,
           type: NotificationType.message,
           title: sender?.name ?? "Nouveau message",
-          body: text,
+          body: body,
           relatedId: widget.chatId,
         );
       }
     }
+  }
+
+  Future<void> _pickAndSendImage(String senderId) async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera_rounded),
+              title: const Text("Prendre une photo"),
+              onTap: () => Navigator.of(context).pop(ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_rounded),
+              title: const Text("Choisir dans la galerie"),
+              onTap: () => Navigator.of(context).pop(ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (source == null) return;
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 1600,
+      imageQuality: 85,
+    );
+    if (picked == null) return;
+    final bytes = await picked.readAsBytes();
+    await ref.read(chatRepositoryProvider).sendImage(
+      chatId: widget.chatId,
+      senderId: senderId,
+      bytes: Uint8List.fromList(bytes),
+    );
+    await _notifyRecipient(senderId, body: "📷 Photo");
   }
 
   @override
@@ -135,12 +179,22 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                               : AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(AppRadii.field),
                         ),
-                        child: Text(
-                          message.text,
-                          style: TextStyle(
-                            color: isMe ? Colors.white : AppColors.text,
-                          ),
-                        ),
+                        child: message.imageUrl != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  AppRadii.field - 4,
+                                ),
+                                child: Image.network(
+                                  message.imageUrl!,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Text(
+                                message.text,
+                                style: TextStyle(
+                                  color: isMe ? Colors.white : AppColors.text,
+                                ),
+                              ),
                       ),
                     );
                   },
@@ -154,6 +208,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Row(
                 children: [
+                  IconButton(
+                    onPressed: () => _pickAndSendImage(user.uid),
+                    icon: const Icon(
+                      Icons.add_a_photo_rounded,
+                      color: AppColors.primary,
+                    ),
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _textController,

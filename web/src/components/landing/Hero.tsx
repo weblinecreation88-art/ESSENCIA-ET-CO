@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Bell, Check, Download, MessageCircle } from "lucide-react";
 
 const APK_DOWNLOAD_URL =
-  "https://drive.google.com/file/d/1p8C42qFhkHdZEdVIcIC59z6tCyVDMi_a/view?usp=sharing";
+  "https://drive.google.com/file/d/1lfS4-i6o_WupghispnntlQdX7fiB9L5-/view?usp=drive_link";
 
 export function Hero() {
   return (

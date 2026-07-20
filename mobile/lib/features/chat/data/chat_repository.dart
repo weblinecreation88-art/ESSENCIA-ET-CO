@@ -1,4 +1,7 @@
+import "dart:typed_data";
+
 import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_storage/firebase_storage.dart";
 
 import "../../auth/domain/user_profile.dart";
 import "../domain/chat_conversation.dart";
@@ -6,10 +9,12 @@ import "../domain/chat_message.dart";
 
 /// Encapsule les collections Firestore `chats` et `chats/{id}/messages`.
 class ChatRepository {
-  ChatRepository({FirebaseFirestore? firestore})
-    : _firestore = firestore ?? FirebaseFirestore.instance;
+  ChatRepository({FirebaseFirestore? firestore, FirebaseStorage? storage})
+    : _firestore = firestore ?? FirebaseFirestore.instance,
+      _storage = storage ?? FirebaseStorage.instance;
 
   final FirebaseFirestore _firestore;
+  final FirebaseStorage _storage;
 
   CollectionReference<Map<String, dynamic>> get _chats =>
       _firestore.collection("chats");
@@ -95,6 +100,30 @@ class ChatRepository {
     });
     await chatDoc.update({
       "lastMessage": text,
+      "lastMessageAt": FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> sendImage({
+    required String chatId,
+    required String senderId,
+    required Uint8List bytes,
+  }) async {
+    final ref = _storage.ref(
+      "chats/$chatId/${DateTime.now().millisecondsSinceEpoch}.jpg",
+    );
+    await ref.putData(bytes, SettableMetadata(contentType: "image/jpeg"));
+    final imageUrl = await ref.getDownloadURL();
+
+    final chatDoc = _chats.doc(chatId);
+    await chatDoc.collection("messages").add({
+      "senderId": senderId,
+      "text": "",
+      "imageUrl": imageUrl,
+      "sentAt": FieldValue.serverTimestamp(),
+    });
+    await chatDoc.update({
+      "lastMessage": "📷 Photo",
       "lastMessageAt": FieldValue.serverTimestamp(),
     });
   }
