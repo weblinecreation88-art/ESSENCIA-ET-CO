@@ -94,6 +94,48 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     setState(() => _profileFuture = _loadProfile());
   }
 
+  Future<void> _editGuardian(UserProfile profile) async {
+    final controller = TextEditingController();
+    final email = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Désigner un tuteur légal"),
+        content: TextField(
+          controller: controller,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            labelText: "E-mail du tuteur",
+            hintText: "tuteur@email.com",
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("Annuler"),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(controller.text.trim()),
+            child: const Text("Enregistrer"),
+          ),
+        ],
+      ),
+    );
+    if (email == null || email.isEmpty) return;
+    final guardian = await ref.read(userProfileRepositoryProvider).findByEmail(email);
+    if (guardian == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Aucun compte ne correspond à cet e-mail.")),
+      );
+      return;
+    }
+    await ref
+        .read(userProfileRepositoryProvider)
+        .updateGuardian(uid: profile.uid, guardianUid: guardian.uid);
+    if (!mounted) return;
+    setState(() => _profileFuture = _loadProfile());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,6 +233,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         label: "Mes réservations",
                         onTap: () => context.push("/provider/bookings"),
                       ),
+                    if (profile.role == UserRole.resident)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                        child: _GuardianCard(
+                          guardianUid: profile.guardianUid,
+                          onEdit: () => _editGuardian(profile),
+                        ),
+                      ),
+                    _ProfileMenuTile(
+                      icon: Icons.shield_rounded,
+                      label: "Sous ma tutelle",
+                      onTap: () => context.push("/guardian"),
+                    ),
                     _ProfileMenuTile(
                       icon: Icons.badge_rounded,
                       label: "Mes informations",
@@ -297,6 +352,63 @@ class _AverageRatingCard extends ConsumerWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _GuardianCard extends ConsumerWidget {
+  const _GuardianCard({required this.guardianUid, required this.onEdit});
+
+  final String? guardianUid;
+  final VoidCallback onEdit;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadii.field),
+        boxShadow: AppTheme.softShadow,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Mon tuteur légal",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                if (guardianUid == null)
+                  Text(
+                    "Aucun tuteur désigné",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  )
+                else
+                  FutureBuilder<UserProfile?>(
+                    future: ref
+                        .read(userProfileRepositoryProvider)
+                        .fetch(guardianUid!),
+                    builder: (context, snapshot) {
+                      final guardian = snapshot.data;
+                      final name = guardian?.displayName?.isNotEmpty == true
+                          ? guardian!.displayName!
+                          : (guardian?.email ?? "...");
+                      return Text(
+                        name,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      );
+                    },
+                  ),
+              ],
+            ),
+          ),
+          TextButton(onPressed: onEdit, child: const Text("Modifier")),
+        ],
       ),
     );
   }

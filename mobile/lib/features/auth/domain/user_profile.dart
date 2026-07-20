@@ -32,6 +32,7 @@ class UserProfile {
     this.photoUrl,
     this.preferences = const NotificationPreferences(),
     this.isAdmin = false,
+    this.guardianUid,
   });
 
   final String uid;
@@ -41,6 +42,7 @@ class UserProfile {
   final String? photoUrl;
   final NotificationPreferences preferences;
   final bool isAdmin;
+  final String? guardianUid;
 
   factory UserProfile.fromMap(String uid, Map<String, dynamic> map) {
     return UserProfile(
@@ -53,6 +55,7 @@ class UserProfile {
         map["preferences"] as Map<String, dynamic>?,
       ),
       isAdmin: map["isAdmin"] as bool? ?? false,
+      guardianUid: map["guardianUid"] as String?,
     );
   }
 
@@ -64,6 +67,7 @@ class UserProfile {
     if (photoUrl != null) "photoUrl": photoUrl,
     "preferences": preferences.toMap(),
     if (isAdmin) "isAdmin": isAdmin,
+    if (guardianUid != null) "guardianUid": guardianUid,
   };
 
   UserProfile copyWith({String? displayName, String? photoUrl}) {
@@ -75,6 +79,7 @@ class UserProfile {
       photoUrl: photoUrl ?? this.photoUrl,
       preferences: preferences,
       isAdmin: isAdmin,
+      guardianUid: guardianUid,
     );
   }
 }

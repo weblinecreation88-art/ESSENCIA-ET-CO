@@ -47,6 +47,37 @@ class UserProfileRepository {
     return _users.doc(uid).update({"preferences": preferences.toMap()});
   }
 
+  /// Recherche un compte par e-mail exact, utilisé pour désigner un tuteur
+  /// légal depuis le profil d'un résident.
+  Future<UserProfile?> findByEmail(String email) async {
+    final snapshot = await _users
+        .where("email", isEqualTo: email)
+        .limit(1)
+        .get();
+    if (snapshot.docs.isEmpty) return null;
+    return UserProfile.fromMap(snapshot.docs.first.id, snapshot.docs.first.data());
+  }
+
+  Future<void> updateGuardian({
+    required String uid,
+    required String? guardianUid,
+  }) {
+    return _users.doc(uid).update({"guardianUid": guardianUid});
+  }
+
+  /// Liste les résidents dont `guardianUid` correspond au tuteur donné.
+  Stream<List<UserProfile>> watchWardsOf(String guardianUid) {
+    return _users
+        .where("guardianUid", isEqualTo: guardianUid)
+        .snapshots()
+        .map(
+          (snapshot) => [
+            for (final doc in snapshot.docs)
+              UserProfile.fromMap(doc.id, doc.data()),
+          ],
+        );
+  }
+
   /// Récupère tous les comptes en une seule fois, utilisé par le tableau de
   /// bord Administration pour compter les utilisateurs par rôle.
   Future<List<UserProfile>> fetchAll() async {

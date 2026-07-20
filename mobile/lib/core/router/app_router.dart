@@ -28,6 +28,8 @@ import "../../features/feedback/presentation/admin_staff_screen.dart";
 import "../../features/feedback/presentation/admin_dashboard_screen.dart";
 import "../../features/satisfaction/presentation/satisfaction_screen.dart";
 import "../../features/satisfaction/presentation/admin_satisfaction_screen.dart";
+import "../../features/guardian/presentation/guardian_wards_screen.dart";
+import "../../features/guardian/presentation/guardian_dossier_screen.dart";
 import "../../features/second_life/presentation/second_life_screen.dart";
 import "../../features/second_life/presentation/create_listing_screen.dart";
 import "../../features/journal/presentation/journal_screen.dart";
@@ -146,6 +148,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: "/satisfaction",
       builder: (context, state) => const SatisfactionScreen(),
+    ),
+    GoRoute(
+      path: "/guardian",
+      builder: (context, state) => const GuardianWardsScreen(),
+    ),
+    GoRoute(
+      path: "/guardian/dossier",
+      builder: (context, state) {
+        final params = state.uri.queryParameters;
+        return GuardianDossierScreen(
+          residentId: params["residentId"]!,
+          residentName: params["residentName"]!,
+        );
+      },
     ),
     GoRoute(
       path: "/second-life",

@@ -23,6 +23,19 @@ class BookingRepository {
     ];
   }
 
+  Stream<List<Booking>> watchForResident(String residentId) {
+    return _firestore
+        .collection("bookings")
+        .where("residentId", isEqualTo: residentId)
+        .orderBy("date")
+        .snapshots()
+        .map(
+          (snapshot) => [
+            for (final doc in snapshot.docs) Booking.fromMap(doc.id, doc.data()),
+          ],
+        );
+  }
+
   Stream<List<Booking>> watchForProvider(String providerId) {
     return _firestore
         .collection("bookings")
