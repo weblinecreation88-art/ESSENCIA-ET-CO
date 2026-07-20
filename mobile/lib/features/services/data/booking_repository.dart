@@ -14,6 +14,15 @@ class BookingRepository {
     return doc.id;
   }
 
+  /// Réservé aux administrateurs : récupère toutes les réservations en une
+  /// seule fois, utilisé par le tableau de bord Administration.
+  Future<List<Booking>> fetchAll() async {
+    final snapshot = await _firestore.collection("bookings").get();
+    return [
+      for (final doc in snapshot.docs) Booking.fromMap(doc.id, doc.data()),
+    ];
+  }
+
   Stream<List<Booking>> watchForProvider(String providerId) {
     return _firestore
         .collection("bookings")

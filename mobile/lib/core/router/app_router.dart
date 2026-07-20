@@ -25,6 +25,9 @@ import "../../features/photos/presentation/photos_screen.dart";
 import "../../features/feedback/presentation/staff_screen.dart";
 import "../../features/feedback/presentation/staff_feedback_screen.dart";
 import "../../features/feedback/presentation/admin_staff_screen.dart";
+import "../../features/feedback/presentation/admin_dashboard_screen.dart";
+import "../../features/satisfaction/presentation/satisfaction_screen.dart";
+import "../../features/satisfaction/presentation/admin_satisfaction_screen.dart";
 import "../../features/second_life/presentation/second_life_screen.dart";
 import "../../features/second_life/presentation/create_listing_screen.dart";
 import "../../features/journal/presentation/journal_screen.dart";
@@ -129,8 +132,20 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: "/admin",
+      builder: (context, state) => const AdminDashboardScreen(),
+    ),
+    GoRoute(
       path: "/admin/staff",
       builder: (context, state) => const AdminStaffScreen(),
+    ),
+    GoRoute(
+      path: "/admin/satisfaction",
+      builder: (context, state) => const AdminSatisfactionScreen(),
+    ),
+    GoRoute(
+      path: "/satisfaction",
+      builder: (context, state) => const SatisfactionScreen(),
     ),
     GoRoute(
       path: "/second-life",

@@ -47,6 +47,15 @@ class UserProfileRepository {
     return _users.doc(uid).update({"preferences": preferences.toMap()});
   }
 
+  /// Récupère tous les comptes en une seule fois, utilisé par le tableau de
+  /// bord Administration pour compter les utilisateurs par rôle.
+  Future<List<UserProfile>> fetchAll() async {
+    final snapshot = await _users.get();
+    return [
+      for (final doc in snapshot.docs) UserProfile.fromMap(doc.id, doc.data()),
+    ];
+  }
+
   /// Liste tous les utilisateurs sauf `excludeUid`, utilisée pour démarrer
   /// une nouvelle conversation.
   Stream<List<UserProfile>> watchAll({required String excludeUid}) {

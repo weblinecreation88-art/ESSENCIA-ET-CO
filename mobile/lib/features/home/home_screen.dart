@@ -156,6 +156,12 @@ class _AccueilTab extends StatelessWidget {
         route: "/staff",
         color: AppColors.roleProfessional,
       ),
+      (
+        icon: Icons.sentiment_satisfied_alt_rounded,
+        label: "Donner mon avis",
+        route: "/satisfaction",
+        color: AppColors.roleFamily,
+      ),
     ];
 
     return SingleChildScrollView(

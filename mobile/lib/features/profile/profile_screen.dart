@@ -222,7 +222,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _ProfileMenuTile(
                         icon: Icons.leaderboard_rounded,
                         label: "Administration",
-                        onTap: () => context.push("/admin/staff"),
+                        onTap: () => context.push("/admin"),
                       ),
                     const SizedBox(height: AppSpacing.md),
                     OutlinedButton.icon(
