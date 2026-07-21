@@ -12,6 +12,7 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.gradient),
         child: SafeArea(
           child: SingleChildScrollView(

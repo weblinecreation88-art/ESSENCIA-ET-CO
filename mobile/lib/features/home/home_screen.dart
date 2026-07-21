@@ -170,56 +170,59 @@ class _AccueilTab extends StatelessWidget {
         children: [
           _HomeHero(bellShowcaseKey: bellShowcaseKey),
           Transform.translate(
-            offset: const Offset(0, -20),
+            offset: const Offset(0, -16),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
               child: _NextAppointmentCard(),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.xl,
-              AppSpacing.xs,
-              AppSpacing.xl,
-              AppSpacing.xl,
-            ),
-            child: Showcase(
-              key: quickActionsShowcaseKey,
-              description:
-                  "Retrouvez ici vos actions principales : famille, "
-                  "messages, agenda, services...",
-              tooltipBackgroundColor: AppColors.surface,
-              descTextStyle: const TextStyle(
-                color: AppColors.text,
-                fontSize: 14,
+          Transform.translate(
+            offset: const Offset(0, -16),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.xl,
+                AppSpacing.lg,
+                AppSpacing.xl,
+                AppSpacing.xl,
               ),
-              targetPadding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Accès rapides",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: AppSpacing.sm,
-                    crossAxisSpacing: AppSpacing.sm,
-                    childAspectRatio: 1.45,
-                    children: [
-                      for (final action in quickActions)
-                        _QuickActionCard(
-                          icon: action.icon,
-                          label: action.label,
-                          color: action.color,
-                          onTap: () => context.push(action.route),
-                        ),
-                    ],
-                  ),
-                ],
+              child: Showcase(
+                key: quickActionsShowcaseKey,
+                description:
+                    "Retrouvez ici vos actions principales : famille, "
+                    "messages, agenda, services...",
+                tooltipBackgroundColor: AppColors.surface,
+                descTextStyle: const TextStyle(
+                  color: AppColors.text,
+                  fontSize: 14,
+                ),
+                targetPadding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Accès rapides",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    GridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: AppSpacing.sm,
+                      crossAxisSpacing: AppSpacing.sm,
+                      childAspectRatio: 1.45,
+                      children: [
+                        for (final action in quickActions)
+                          _QuickActionCard(
+                            icon: action.icon,
+                            label: action.label,
+                            color: action.color,
+                            onTap: () => context.push(action.route),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -244,7 +247,7 @@ class _HomeHero extends ConsumerWidget {
         AppSpacing.xl,
         MediaQuery.of(context).padding.top + AppSpacing.sm,
         AppSpacing.xl,
-        AppSpacing.xxxl,
+        AppSpacing.xl,
       ),
       decoration: const BoxDecoration(
         gradient: AppColors.gradient,

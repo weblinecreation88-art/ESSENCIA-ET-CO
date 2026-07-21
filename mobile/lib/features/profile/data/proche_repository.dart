@@ -25,6 +25,10 @@ class ProcheRepository {
     return _proches(uid).add(proche.toMap());
   }
 
+  Future<void> update(String uid, Proche proche) {
+    return _proches(uid).doc(proche.id).update(proche.toMap());
+  }
+
   Future<void> remove(String uid, String procheId) {
     return _proches(uid).doc(procheId).delete();
   }

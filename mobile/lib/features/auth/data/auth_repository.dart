@@ -1,4 +1,5 @@
 import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/foundation.dart" show kIsWeb;
 
 /// Encapsule Firebase Auth. Ne contient aucune logique d'UI ni de navigation.
 class AuthRepository {
@@ -31,11 +32,14 @@ class AuthRepository {
     return _auth.sendPasswordResetEmail(email: email);
   }
 
-  /// Connexion Google via le flux de fournisseur unifié de Firebase Auth
-  /// (popup web / vue web intégrée sur mobile) : ne nécessite pas
-  /// d'empreinte SHA-1 ni de package `google_sign_in` séparé.
+  /// Connexion Google : popup web sur Flutter Web (`signInWithProvider`
+  /// n'y est pas implémenté), flux de fournisseur unifié sur mobile — ne
+  /// nécessite pas d'empreinte SHA-1 ni de package `google_sign_in` séparé.
   Future<User> signInWithGoogle() async {
-    final credential = await _auth.signInWithProvider(GoogleAuthProvider());
+    final provider = GoogleAuthProvider();
+    final credential = kIsWeb
+        ? await _auth.signInWithPopup(provider)
+        : await _auth.signInWithProvider(provider);
     return credential.user!;
   }
 

@@ -4,6 +4,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../core/theme/app_spacing.dart";
+import "../../../core/widgets/google_logo.dart";
 import "../application/auth_providers.dart";
 import "../data/auth_repository.dart";
 
@@ -21,6 +22,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _confirmController = TextEditingController();
   bool _obscurePassword = true;
   bool _isSubmitting = false;
+  bool _isGoogleSubmitting = false;
   String? _errorMessage;
 
   @override
@@ -48,6 +50,24 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       setState(() => _errorMessage = AuthRepository.messageFor(error));
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    setState(() {
+      _isGoogleSubmitting = true;
+      _errorMessage = null;
+    });
+    try {
+      final user = await ref.read(authRepositoryProvider).signInWithGoogle();
+      if (!mounted) return;
+      final route = await resolvePostAuthRoute(ref, user.uid);
+      if (!mounted) return;
+      context.go(route);
+    } on FirebaseAuthException catch (error) {
+      setState(() => _errorMessage = AuthRepository.messageFor(error));
+    } finally {
+      if (mounted) setState(() => _isGoogleSubmitting = false);
     }
   }
 
@@ -149,6 +169,42 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                             ),
                           )
                         : const Text("Créer un compte"),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xxl),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.md,
+                      ),
+                      child: Text("ou", style: Theme.of(context).textTheme.bodySmall),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _isGoogleSubmitting ? null : _signInWithGoogle,
+                    icon: _isGoogleSubmitting
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const GoogleLogo(),
+                    label: const Text("Continuer avec Google"),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xl),

@@ -93,12 +93,26 @@ class NotificationsScreen extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: notification.read
-                            ? (notification.createdAt != null
-                                  ? Text(
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (notification.createdAt != null)
+                                    Text(
                                       DateFormat.Hm().format(notification.createdAt!),
                                       style: Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  : null)
+                                    ),
+                                  IconButton(
+                                    onPressed: () => ref
+                                        .read(notificationRepositoryProvider)
+                                        .delete(user.uid, notification.id),
+                                    icon: const Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: AppColors.textMuted,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              )
                             : const CircleAvatar(
                                 radius: 5,
                                 backgroundColor: AppColors.secondary,

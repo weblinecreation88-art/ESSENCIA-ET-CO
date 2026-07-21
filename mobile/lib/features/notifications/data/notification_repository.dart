@@ -49,4 +49,8 @@ class NotificationRepository {
   Future<void> markAsRead(String uid, String notificationId) {
     return _notifications(uid).doc(notificationId).update({"read": true});
   }
+
+  Future<void> delete(String uid, String notificationId) {
+    return _notifications(uid).doc(notificationId).delete();
+  }
 }
