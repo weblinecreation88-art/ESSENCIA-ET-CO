@@ -101,6 +101,7 @@ class ChatRepository {
     await chatDoc.update({
       "lastMessage": text,
       "lastMessageAt": FieldValue.serverTimestamp(),
+      "lastMessageSenderId": senderId,
     });
   }
 
@@ -125,6 +126,16 @@ class ChatRepository {
     await chatDoc.update({
       "lastMessage": "📷 Photo",
       "lastMessageAt": FieldValue.serverTimestamp(),
+      "lastMessageSenderId": senderId,
     });
+  }
+
+  Future<void> deleteMessage(String chatId, String messageId) {
+    return _chats.doc(chatId).collection("messages").doc(messageId).delete();
+  }
+
+  /// Marque la conversation comme lue par `uid` à l'instant présent.
+  Future<void> markAsRead(String chatId, String uid) {
+    return _chats.doc(chatId).update({"lastReadAt.$uid": FieldValue.serverTimestamp()});
   }
 }

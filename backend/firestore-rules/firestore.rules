@@ -53,6 +53,8 @@ service cloud.firestore {
         allow create: if request.auth != null
           && request.resource.data.senderId == request.auth.uid
           && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participantIds;
+        allow delete: if request.auth != null
+          && request.auth.uid == resource.data.senderId;
       }
     }
 

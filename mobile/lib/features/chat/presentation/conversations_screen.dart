@@ -70,6 +70,7 @@ class ConversationsScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final conversation = conversations[index];
                     final other = conversation.otherParticipant(user.uid);
+                    final isUnread = conversation.isUnreadFor(user.uid);
                     return Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surface,
@@ -89,18 +90,42 @@ class ConversationsScreen extends ConsumerWidget {
                               ? AssetImage(other.role.defaultAvatarAsset)
                               : null,
                         ),
-                        title: Text(other?.name ?? "Utilisateur"),
+                        title: Text(
+                          other?.name ?? "Utilisateur",
+                          style: TextStyle(
+                            fontWeight: isUnread ? FontWeight.bold : null,
+                          ),
+                        ),
                         subtitle: Text(
                           conversation.lastMessage ?? "Nouvelle conversation",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: isUnread ? FontWeight.w600 : null,
+                            color: isUnread ? AppColors.title : null,
+                          ),
                         ),
-                        trailing: conversation.lastMessageAt != null
-                            ? Text(
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (conversation.lastMessageAt != null)
+                              Text(
                                 DateFormat.Hm().format(conversation.lastMessageAt!),
                                 style: Theme.of(context).textTheme.bodySmall,
-                              )
-                            : null,
+                              ),
+                            if (isUnread)
+                              Container(
+                                margin: const EdgeInsets.only(top: AppSpacing.xs),
+                                width: 10,
+                                height: 10,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.secondary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                          ],
+                        ),
                         onTap: () => context.push("/chat/${conversation.id}"),
                       ),
                     );

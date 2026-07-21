@@ -3,6 +3,7 @@ import "dart:typed_data";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:image_picker/image_picker.dart";
+import "package:intl/intl.dart";
 
 import "../../../core/theme/app_colors.dart";
 import "../../../core/theme/app_radii.dart";
@@ -29,10 +30,43 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final _scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    final user = ref.read(authRepositoryProvider).currentUser;
+    if (user != null) {
+      ref.read(chatRepositoryProvider).markAsRead(widget.chatId, user.uid);
+    }
+  }
+
+  @override
   void dispose() {
     _textController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _confirmDeleteMessage(ChatMessage message) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Supprimer le message ?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text("Annuler"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text("Supprimer"),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await ref
+          .read(chatRepositoryProvider)
+          .deleteMessage(widget.chatId, message.id);
+    }
   }
 
   Future<void> _send(String senderId) async {
@@ -162,39 +196,57 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       alignment: isMe
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: AppSpacing.xs,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.md,
-                          vertical: AppSpacing.sm,
-                        ),
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.72,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isMe
-                              ? AppColors.primary
-                              : AppColors.surfaceAlt,
-                          borderRadius: BorderRadius.circular(AppRadii.field),
-                        ),
-                        child: message.imageUrl != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  AppRadii.field - 4,
-                                ),
-                                child: Image.network(
-                                  message.imageUrl!,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : Text(
-                                message.text,
-                                style: TextStyle(
-                                  color: isMe ? Colors.white : AppColors.text,
+                      child: GestureDetector(
+                        onLongPress: isMe
+                            ? () => _confirmDeleteMessage(message)
+                            : null,
+                        child: Column(
+                          crossAxisAlignment: isMe
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: AppSpacing.xs),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.md,
+                                vertical: AppSpacing.sm,
+                              ),
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.72,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isMe
+                                    ? AppColors.primary
+                                    : AppColors.surfaceAlt,
+                                borderRadius: BorderRadius.circular(AppRadii.field),
+                              ),
+                              child: message.imageUrl != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        AppRadii.field - 4,
+                                      ),
+                                      child: Image.network(
+                                        message.imageUrl!,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Text(
+                                      message.text,
+                                      style: TextStyle(
+                                        color: isMe ? Colors.white : AppColors.text,
+                                      ),
+                                    ),
+                            ),
+                            if (message.sentAt != null)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2),
+                                child: Text(
+                                  DateFormat.Hm().format(message.sentAt!),
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
+                          ],
+                        ),
                       ),
                     );
                   },
