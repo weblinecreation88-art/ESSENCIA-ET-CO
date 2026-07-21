@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Bell, Check, Download, MessageCircle } from "lucide-react";
 
 const APK_DOWNLOAD_URL =
@@ -88,18 +87,18 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-md">
+        <div className="relative mx-auto w-full max-w-lg">
           <div
             className="absolute -inset-x-[4%] -inset-y-[6%] -rotate-3 rounded-[40px] shadow-[0_30px_70px_rgba(70,40,120,0.14)]"
             style={{ background: "linear-gradient(150deg, #efe7fb, #fbeaf3)" }}
           />
-          <Image
-            src="/illustrations/hero-family.png"
-            alt="Une résidente entourée de sa famille, illustration E-sensya & Co"
-            width={1200}
-            height={1200}
-            className="relative block w-full rounded-[32px]"
-            priority
+          <video
+            src="/videos/hero-intro.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="relative block aspect-video w-full rounded-[32px] object-cover shadow-[0_20px_44px_rgba(70,40,120,0.18)]"
           />
           <div className="absolute -left-6 top-5 flex animate-[float_6s_ease-in-out_infinite] items-center gap-3 rounded-[18px] border border-border bg-surface px-4 py-3 shadow-[0_16px_36px_rgba(70,40,120,0.16)]">
             <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-[#f3eefc]">
