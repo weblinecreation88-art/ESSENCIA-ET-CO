@@ -58,10 +58,16 @@ class GuardianWardsScreen extends ConsumerWidget {
                         ),
                         leading: CircleAvatar(
                           backgroundColor: AppColors.roleResident,
-                          backgroundImage: AssetImage(ward.role.defaultAvatarAsset),
+                          backgroundImage: AssetImage(
+                            ward.role.defaultAvatarAsset,
+                          ),
                         ),
                         title: Text(name),
-                        subtitle: const Text("Résident"),
+                        subtitle: Text(
+                          ward.guardianType == GuardianType.organization
+                              ? "Suivi par ${ward.guardianOrganization ?? "un organisme"}"
+                              : "Proche sous tutelle",
+                        ),
                         trailing: const Icon(Icons.chevron_right_rounded),
                         onTap: () => context.push(
                           "/guardian/dossier?residentId=${ward.uid}"

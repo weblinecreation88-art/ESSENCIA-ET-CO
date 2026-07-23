@@ -95,43 +95,145 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Future<void> _editGuardian(UserProfile profile) async {
-    final controller = TextEditingController();
-    final email = await showDialog<String>(
+    final existingGuardian = profile.guardianUid == null
+        ? null
+        : await ref
+              .read(userProfileRepositoryProvider)
+              .fetch(profile.guardianUid!);
+    if (!mounted) return;
+
+    var selectedType = profile.guardianType ?? GuardianType.relative;
+    final nameController = TextEditingController(
+      text: selectedType == GuardianType.organization
+          ? profile.guardianOrganization
+          : profile.guardianName,
+    );
+    final emailController = TextEditingController(
+      text: existingGuardian?.email ?? "",
+    );
+    final referenceController = TextEditingController(
+      text: profile.guardianReference,
+    );
+
+    final result = await showDialog<_GuardianFormResult>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Désigner un tuteur légal"),
-        content: TextField(
-          controller: controller,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-            labelText: "E-mail du tuteur",
-            hintText: "tuteur@email.com",
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text("Tutelle et suivi"),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SegmentedButton<GuardianType>(
+                  segments: const [
+                    ButtonSegment(
+                      value: GuardianType.relative,
+                      icon: Icon(Icons.person_rounded),
+                      label: Text("Proche"),
+                    ),
+                    ButtonSegment(
+                      value: GuardianType.organization,
+                      icon: Icon(Icons.apartment_rounded),
+                      label: Text("Organisme"),
+                    ),
+                  ],
+                  selected: {selectedType},
+                  onSelectionChanged: (selection) =>
+                      setDialogState(() => selectedType = selection.first),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: selectedType == GuardianType.organization
+                        ? "Nom de l'organisme"
+                        : "Nom du proche",
+                    hintText: selectedType == GuardianType.organization
+                        ? "Ex. UDAF"
+                        : "Nom du tuteur légal",
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: "E-mail du compte tuteur",
+                    hintText: "tuteur@email.com",
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextField(
+                  controller: referenceController,
+                  decoration: const InputDecoration(
+                    labelText: "Référence du dossier (optionnel)",
+                    hintText: "Numéro de mesure ou de dossier",
+                  ),
+                ),
+              ],
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Annuler"),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(
+                _GuardianFormResult(
+                  type: selectedType,
+                  displayName: nameController.text.trim(),
+                  email: emailController.text.trim(),
+                  reference: referenceController.text.trim(),
+                ),
+              ),
+              child: const Text("Enregistrer"),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Annuler"),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(controller.text.trim()),
-            child: const Text("Enregistrer"),
-          ),
-        ],
       ),
     );
-    if (email == null || email.isEmpty) return;
-    final guardian = await ref.read(userProfileRepositoryProvider).findByEmail(email);
+    nameController.dispose();
+    emailController.dispose();
+    referenceController.dispose();
+    if (result == null) return;
+    if (result.displayName.isEmpty || result.email.isEmpty) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Le nom et l'e-mail sont obligatoires.")),
+      );
+      return;
+    }
+
+    final guardian = await ref
+        .read(userProfileRepositoryProvider)
+        .findByEmail(result.email);
     if (guardian == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Aucun compte ne correspond à cet e-mail.")),
+        const SnackBar(
+          content: Text(
+            "Aucun compte E-sensya ne correspond à cet e-mail. "
+            "Un compte est nécessaire pour le suivi sécurisé.",
+          ),
+        ),
       );
       return;
     }
     await ref
         .read(userProfileRepositoryProvider)
-        .updateGuardian(uid: profile.uid, guardianUid: guardian.uid);
+        .updateGuardian(
+          uid: profile.uid,
+          guardianUid: guardian.uid,
+          guardianType: result.type,
+          guardianName: result.type == GuardianType.relative
+              ? result.displayName
+              : null,
+          guardianOrganization: result.type == GuardianType.organization
+              ? result.displayName
+              : null,
+          guardianReference: result.reference.isEmpty ? null : result.reference,
+        );
     if (!mounted) return;
     setState(() => _profileFuture = _loadProfile());
   }
@@ -227,17 +329,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         padding: const EdgeInsets.only(bottom: AppSpacing.md),
                         child: _AverageRatingCard(uid: profile.uid),
                       ),
-                    if (profile.role == UserRole.provider)
+                    if (profile.role == UserRole.provider ||
+                        profile.role == UserRole.professional)
                       _ProfileMenuTile(
                         icon: Icons.event_available_rounded,
-                        label: "Mes réservations",
+                        label: "Mes rendez-vous",
                         onTap: () => context.push("/provider/bookings"),
                       ),
                     if (profile.role == UserRole.resident)
                       Padding(
                         padding: const EdgeInsets.only(bottom: AppSpacing.md),
                         child: _GuardianCard(
-                          guardianUid: profile.guardianUid,
+                          profile: profile,
                           onEdit: () => _editGuardian(profile),
                         ),
                       ),
@@ -254,9 +357,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     _ProfileMenuTile(
                       icon: Icons.tune_rounded,
                       label: "Mes préférences",
-                      onTap: () => context.push(
-                        "/profile/preferences",
-                      ),
+                      onTap: () => context.push("/profile/preferences"),
+                    ),
+                    _ProfileMenuTile(
+                      icon: Icons.workspace_premium_rounded,
+                      label: "Mon abonnement",
+                      onTap: () => context.push("/subscription"),
                     ),
                     _ProfileMenuTile(
                       icon: Icons.people_alt_rounded,
@@ -358,9 +464,9 @@ class _AverageRatingCard extends ConsumerWidget {
 }
 
 class _GuardianCard extends ConsumerWidget {
-  const _GuardianCard({required this.guardianUid, required this.onEdit});
+  const _GuardianCard({required this.profile, required this.onEdit});
 
-  final String? guardianUid;
+  final UserProfile profile;
   final VoidCallback onEdit;
 
   @override
@@ -379,30 +485,33 @@ class _GuardianCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Mon tuteur légal",
+                  profile.guardianType == GuardianType.organization
+                      ? "Organisme de tutelle"
+                      : "Mon tuteur légal",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: AppSpacing.xs),
-                if (guardianUid == null)
+                if (profile.guardianUid == null)
                   Text(
                     "Aucun tuteur désigné",
                     style: Theme.of(context).textTheme.bodySmall,
                   )
                 else
-                  FutureBuilder<UserProfile?>(
-                    future: ref
-                        .read(userProfileRepositoryProvider)
-                        .fetch(guardianUid!),
-                    builder: (context, snapshot) {
-                      final guardian = snapshot.data;
-                      final name = guardian?.displayName?.isNotEmpty == true
-                          ? guardian!.displayName!
-                          : (guardian?.email ?? "...");
-                      return Text(
-                        name,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.guardianType == GuardianType.organization
+                            ? profile.guardianOrganization ?? "Organisme"
+                            : profile.guardianName ?? "Proche",
                         style: Theme.of(context).textTheme.bodySmall,
-                      );
-                    },
+                      ),
+                      if (profile.guardianReference?.isNotEmpty == true)
+                        Text(
+                          "Dossier ${profile.guardianReference}",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                    ],
                   ),
               ],
             ),
@@ -412,6 +521,20 @@ class _GuardianCard extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _GuardianFormResult {
+  const _GuardianFormResult({
+    required this.type,
+    required this.displayName,
+    required this.email,
+    required this.reference,
+  });
+
+  final GuardianType type;
+  final String displayName;
+  final String email;
+  final String reference;
 }
 
 class _ProfileMenuTile extends StatelessWidget {

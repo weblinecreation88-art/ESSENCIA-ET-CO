@@ -32,7 +32,10 @@ class UserProfileRepository {
     });
   }
 
-  Future<void> updateDisplayName({required String uid, required String displayName}) {
+  Future<void> updateDisplayName({
+    required String uid,
+    required String displayName,
+  }) {
     return _users.doc(uid).update({"displayName": displayName});
   }
 
@@ -55,14 +58,27 @@ class UserProfileRepository {
         .limit(1)
         .get();
     if (snapshot.docs.isEmpty) return null;
-    return UserProfile.fromMap(snapshot.docs.first.id, snapshot.docs.first.data());
+    return UserProfile.fromMap(
+      snapshot.docs.first.id,
+      snapshot.docs.first.data(),
+    );
   }
 
   Future<void> updateGuardian({
     required String uid,
     required String? guardianUid,
+    required GuardianType guardianType,
+    String? guardianName,
+    String? guardianOrganization,
+    String? guardianReference,
   }) {
-    return _users.doc(uid).update({"guardianUid": guardianUid});
+    return _users.doc(uid).update({
+      "guardianUid": guardianUid,
+      "guardianType": guardianType.storageValue,
+      "guardianName": guardianName,
+      "guardianOrganization": guardianOrganization,
+      "guardianReference": guardianReference,
+    });
   }
 
   /// Liste les résidents dont `guardianUid` correspond au tuteur donné.
@@ -103,6 +119,21 @@ class UserProfileRepository {
   Stream<List<UserProfile>> watchByRole(UserRole role) {
     return _users
         .where("role", isEqualTo: role.storageValue)
+        .snapshots()
+        .map(
+          (snapshot) => [
+            for (final doc in snapshot.docs)
+              UserProfile.fromMap(doc.id, doc.data()),
+          ],
+        );
+  }
+
+  /// Liste les utilisateurs correspondant à plusieurs rôles. Les
+  /// professionnels du centre et les prestataires externes peuvent ainsi être
+  /// proposés dans le même parcours de prise de rendez-vous.
+  Stream<List<UserProfile>> watchByRoles(List<UserRole> roles) {
+    return _users
+        .where("role", whereIn: [for (final role in roles) role.storageValue])
         .snapshots()
         .map(
           (snapshot) => [

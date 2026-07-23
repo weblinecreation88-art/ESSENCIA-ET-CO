@@ -8,6 +8,8 @@ import "../../../core/theme/app_spacing.dart";
 import "../../../core/theme/app_theme.dart";
 import "../../agenda/application/agenda_providers.dart";
 import "../../agenda/domain/agenda_event.dart";
+import "../../auth/application/auth_providers.dart";
+import "../../auth/domain/user_profile.dart";
 import "../../journal/application/journal_providers.dart";
 import "../../journal/domain/journal_entry.dart";
 import "../../services/application/service_providers.dart";
@@ -33,6 +35,14 @@ class GuardianDossierScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.xl),
         children: [
+          FutureBuilder<UserProfile?>(
+            future: ref.read(userProfileRepositoryProvider).fetch(residentId),
+            builder: (context, snapshot) => _GuardianshipSummary(
+              residentName: residentName,
+              profile: snapshot.data,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
           _SectionTitle("Agenda", Icons.calendar_month_rounded),
           StreamBuilder<List<AgendaEvent>>(
             stream: ref.read(agendaRepositoryProvider).watchEvents(residentId),
@@ -69,10 +79,12 @@ class GuardianDossierScreen extends ConsumerWidget {
                 children: [
                   for (final booking in bookings)
                     _InfoTile(
-                      title: booking.category.label,
+                      title: booking.specialty ?? booking.category.label,
                       subtitle:
                           "${booking.providerName} · "
-                          "${DateFormat("d MMM, HH:mm", "fr_FR").format(booking.date)}",
+                          "${DateFormat("d MMM, HH:mm", "fr_FR").format(booking.date)}"
+                          " · ${booking.mode.label}"
+                          "${booking.locationDetails?.isNotEmpty == true ? " · ${booking.locationDetails}" : ""}",
                     ),
                 ],
               );
@@ -94,6 +106,74 @@ class GuardianDossierScreen extends ConsumerWidget {
                 ],
               );
             },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GuardianshipSummary extends StatelessWidget {
+  const _GuardianshipSummary({
+    required this.residentName,
+    required this.profile,
+  });
+
+  final String residentName;
+  final UserProfile? profile;
+
+  @override
+  Widget build(BuildContext context) {
+    final isOrganization = profile?.guardianType == GuardianType.organization;
+    final guardianLabel = isOrganization
+        ? profile?.guardianOrganization ?? "Organisme de tutelle"
+        : profile?.guardianName ?? "Proche désigné";
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.primarySoft),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(AppRadii.field),
+            ),
+            child: Icon(
+              isOrganization
+                  ? Icons.apartment_rounded
+                  : Icons.health_and_safety_rounded,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Suivi de $residentName",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  guardianLabel,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                if (profile?.guardianReference?.isNotEmpty == true)
+                  Text(
+                    "Référence : ${profile!.guardianReference}",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+              ],
+            ),
           ),
         ],
       ),

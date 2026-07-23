@@ -9,6 +9,7 @@ import "../../core/theme/app_radii.dart";
 import "../../core/theme/app_spacing.dart";
 import "../../core/theme/app_theme.dart";
 import "../auth/application/auth_providers.dart";
+import "../auth/domain/user_profile.dart";
 import "../notifications/application/notification_providers.dart";
 
 /// Écran d'accueil avec la bottom nav (Accueil / Messages / Agenda / Profil),
@@ -70,6 +71,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         bellShowcaseKey: _bellShowcaseKey,
         quickActionsShowcaseKey: _quickActionsShowcaseKey,
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColors.secondary,
+        foregroundColor: Colors.white,
+        onPressed: () => context.push("/emergency"),
+        icon: const Icon(Icons.sos_rounded, size: 28),
+        label: const Text(
+          "Urgences",
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+        ),
+      ),
       bottomNavigationBar: Showcase(
         key: _navShowcaseKey,
         description: "Naviguez ici entre les différentes sections de l'app.",
@@ -121,12 +132,6 @@ class _AccueilTab extends StatelessWidget {
         color: AppColors.roleFamily,
       ),
       (
-        icon: Icons.photo_camera_rounded,
-        label: "Photos",
-        route: "/photos",
-        color: AppColors.roleResident,
-      ),
-      (
         icon: Icons.calendar_month_rounded,
         label: "Agenda",
         route: "/agenda",
@@ -165,6 +170,9 @@ class _AccueilTab extends StatelessWidget {
     ];
 
     return SingleChildScrollView(
+      // Réserve la hauteur du bouton Urgences pour que la dernière rangée
+      // d'actions puisse toujours défiler entièrement au-dessus de celui-ci.
+      padding: const EdgeInsets.only(bottom: AppSpacing.xxxl * 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -242,6 +250,9 @@ class _HomeHero extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authRepositoryProvider).currentUser;
+    final fallbackName = user?.displayName?.trim().isNotEmpty == true
+        ? user!.displayName!.trim()
+        : user?.email?.split("@").first ?? "";
     return Container(
       padding: EdgeInsets.fromLTRB(
         AppSpacing.xl,
@@ -260,11 +271,24 @@ class _HomeHero extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Bonjour Marie 👋",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                FutureBuilder<UserProfile?>(
+                  future: user == null
+                      ? Future<UserProfile?>.value()
+                      : ref.read(userProfileRepositoryProvider).fetch(user.uid),
+                  builder: (context, snapshot) {
+                    final profileName = snapshot.data?.displayName?.trim();
+                    final name = profileName?.isNotEmpty == true
+                        ? profileName!
+                        : fallbackName;
+                    return Text(
+                      name.isEmpty ? "Bonjour 👋" : "Bonjour $name 👋",
+                      maxLines: 2,
+                      softWrap: true,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                    );
+                  },
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(

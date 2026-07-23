@@ -1,5 +1,25 @@
 import "user_role.dart";
 
+enum GuardianType {
+  relative,
+  organization;
+
+  String get label => switch (this) {
+    GuardianType.relative => "Un proche",
+    GuardianType.organization => "Un organisme",
+  };
+
+  String get storageValue => name;
+
+  static GuardianType? fromStorage(String? value) {
+    if (value == null) return null;
+    return GuardianType.values.firstWhere(
+      (type) => type.name == value,
+      orElse: () => GuardianType.relative,
+    );
+  }
+}
+
 class NotificationPreferences {
   const NotificationPreferences({
     this.notifyMessages = true,
@@ -33,6 +53,10 @@ class UserProfile {
     this.preferences = const NotificationPreferences(),
     this.isAdmin = false,
     this.guardianUid,
+    this.guardianType,
+    this.guardianName,
+    this.guardianOrganization,
+    this.guardianReference,
   });
 
   final String uid;
@@ -43,6 +67,10 @@ class UserProfile {
   final NotificationPreferences preferences;
   final bool isAdmin;
   final String? guardianUid;
+  final GuardianType? guardianType;
+  final String? guardianName;
+  final String? guardianOrganization;
+  final String? guardianReference;
 
   factory UserProfile.fromMap(String uid, Map<String, dynamic> map) {
     return UserProfile(
@@ -56,6 +84,10 @@ class UserProfile {
       ),
       isAdmin: map["isAdmin"] as bool? ?? false,
       guardianUid: map["guardianUid"] as String?,
+      guardianType: GuardianType.fromStorage(map["guardianType"] as String?),
+      guardianName: map["guardianName"] as String?,
+      guardianOrganization: map["guardianOrganization"] as String?,
+      guardianReference: map["guardianReference"] as String?,
     );
   }
 
@@ -68,6 +100,11 @@ class UserProfile {
     "preferences": preferences.toMap(),
     if (isAdmin) "isAdmin": isAdmin,
     if (guardianUid != null) "guardianUid": guardianUid,
+    if (guardianType != null) "guardianType": guardianType!.storageValue,
+    if (guardianName != null) "guardianName": guardianName,
+    if (guardianOrganization != null)
+      "guardianOrganization": guardianOrganization,
+    if (guardianReference != null) "guardianReference": guardianReference,
   };
 
   UserProfile copyWith({String? displayName, String? photoUrl}) {
@@ -80,6 +117,10 @@ class UserProfile {
       preferences: preferences,
       isAdmin: isAdmin,
       guardianUid: guardianUid,
+      guardianType: guardianType,
+      guardianName: guardianName,
+      guardianOrganization: guardianOrganization,
+      guardianReference: guardianReference,
     );
   }
 }

@@ -84,7 +84,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/videos/logo_reveal.mp4
+    - assets/videos/logo-animation.mp4
     - assets/images/logo.png
     - assets/illustrations/caregivers-wheelchair.png
     - assets/images/avatars/resident.png

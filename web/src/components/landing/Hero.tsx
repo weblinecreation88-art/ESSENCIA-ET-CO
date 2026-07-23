@@ -31,7 +31,7 @@ export function Hero() {
         <div className="flex flex-col items-start gap-[26px]">
           <span className="inline-flex items-center gap-[9px] rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-primary-dark shadow-[0_6px_18px_rgba(70,40,120,0.07)]">
             <span className="h-2 w-2 rounded-full bg-success shadow-[0_0_0_4px_rgba(89,179,125,0.18)]" />
-            EHPAD &amp; résidences seniors
+            EHPAD &amp; établissements ESSMS
           </span>
           <h1 className="text-[clamp(2.6rem,5vw,4rem)] font-extrabold tracking-[-0.025em] text-title">
             Le lien qui prend soin de{" "}
@@ -87,18 +87,19 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg">
+        <div className="relative mx-auto w-full max-w-[380px]">
           <div
             className="absolute -inset-x-[4%] -inset-y-[6%] -rotate-3 rounded-[40px] shadow-[0_30px_70px_rgba(70,40,120,0.14)]"
             style={{ background: "linear-gradient(150deg, #efe7fb, #fbeaf3)" }}
           />
           <video
-            src="/videos/hero-intro.mp4"
+            src="/videos/logo-animation.mp4"
             autoPlay
             muted
             loop
             playsInline
-            className="relative block aspect-video w-full rounded-[32px] object-cover shadow-[0_20px_44px_rgba(70,40,120,0.18)]"
+            aria-label="Logo animé E-sensya & Co"
+            className="relative block aspect-[9/16] w-full rounded-[32px] object-cover shadow-[0_20px_44px_rgba(70,40,120,0.18)]"
           />
           <div className="absolute -left-6 top-5 flex animate-[float_6s_ease-in-out_infinite] items-center gap-3 rounded-[18px] border border-border bg-surface px-4 py-3 shadow-[0_16px_36px_rgba(70,40,120,0.16)]">
             <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-[#f3eefc]">

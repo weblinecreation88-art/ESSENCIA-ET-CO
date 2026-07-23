@@ -20,8 +20,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset("assets/videos/logo_reveal.mp4")
-      ..setVolume(0);
+    _controller = VideoPlayerController.asset(
+      "assets/videos/logo-animation.mp4",
+    )..setVolume(0);
     _controller
         .initialize()
         .then((_) {
@@ -70,9 +71,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         decoration: const BoxDecoration(gradient: AppColors.gradient),
         child: Center(
           child: _controller.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
+              ? SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _controller.value.size.width,
+                      height: _controller.value.size.height,
+                      child: VideoPlayer(_controller),
+                    ),
+                  ),
                 )
               : const SizedBox(
                   width: 48,

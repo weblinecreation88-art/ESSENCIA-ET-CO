@@ -15,7 +15,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "E-sensya & Co — Le lien qui prend soin de l'essentiel",
   description:
-    "E-sensya & Co rapproche résidents, familles, équipes et prestataires en EHPAD et résidences seniors : messagerie, agenda, réservation de services et notifications, dans une application simple et rassurante.",
+    "E-sensya & Co rapproche résidents, familles, équipes et prestataires en EHPAD et établissements ESSMS : messagerie, agenda, réservation de services et notifications, dans une application simple et rassurante.",
 };
 
 export default function RootLayout({

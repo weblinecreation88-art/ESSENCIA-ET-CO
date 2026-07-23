@@ -21,7 +21,6 @@ import "../../features/services/presentation/booking_screen.dart";
 import "../../features/services/presentation/provider_bookings_screen.dart";
 import "../../features/services/domain/service_category.dart";
 import "../../features/notifications/presentation/notifications_screen.dart";
-import "../../features/photos/presentation/photos_screen.dart";
 import "../../features/feedback/presentation/staff_screen.dart";
 import "../../features/feedback/presentation/staff_feedback_screen.dart";
 import "../../features/feedback/presentation/admin_staff_screen.dart";
@@ -34,12 +33,17 @@ import "../../features/second_life/presentation/second_life_screen.dart";
 import "../../features/second_life/presentation/create_listing_screen.dart";
 import "../../features/journal/presentation/journal_screen.dart";
 import "../../features/journal/presentation/journal_detail_screen.dart";
+import "../../features/subscription/presentation/paywall_screen.dart";
+import "../../features/emergency/presentation/emergency_numbers_screen.dart";
 
 final GoRouter appRouter = GoRouter(
   initialLocation: "/splash",
   routes: [
     GoRoute(path: "/splash", builder: (context, state) => const SplashScreen()),
-    GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen()),
+    GoRoute(
+      path: "/welcome",
+      builder: (context, state) => const WelcomeScreen(),
+    ),
     GoRoute(path: "/login", builder: (context, state) => const LoginScreen()),
     GoRoute(path: "/signup", builder: (context, state) => const SignupScreen()),
     GoRoute(
@@ -47,6 +51,10 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const RoleSelectionScreen(),
     ),
     GoRoute(path: "/home", builder: (context, state) => const HomeScreen()),
+    GoRoute(
+      path: "/emergency",
+      builder: (context, state) => const EmergencyNumbersScreen(),
+    ),
     GoRoute(
       path: "/profile",
       builder: (context, state) => const ProfileScreen(),
@@ -68,6 +76,10 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const HelpScreen(),
     ),
     GoRoute(
+      path: "/subscription",
+      builder: (context, state) => const PaywallScreen(),
+    ),
+    GoRoute(
       path: "/chat",
       builder: (context, state) => const ConversationsScreen(),
     ),
@@ -80,10 +92,7 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) =>
           ChatScreen(chatId: state.pathParameters["chatId"]!),
     ),
-    GoRoute(
-      path: "/agenda",
-      builder: (context, state) => const AgendaScreen(),
-    ),
+    GoRoute(path: "/agenda", builder: (context, state) => const AgendaScreen()),
     GoRoute(
       path: "/services",
       builder: (context, state) => const ServicesScreen(),
@@ -104,6 +113,7 @@ final GoRouter appRouter = GoRouter(
           providerId: params["providerId"]!,
           providerName: params["providerName"]!,
           category: ServiceCategory.fromStorage(params["category"]!),
+          specialty: params["specialty"],
         );
       },
     ),
@@ -115,14 +125,7 @@ final GoRouter appRouter = GoRouter(
       path: "/notifications",
       builder: (context, state) => const NotificationsScreen(),
     ),
-    GoRoute(
-      path: "/photos",
-      builder: (context, state) => const PhotosScreen(),
-    ),
-    GoRoute(
-      path: "/staff",
-      builder: (context, state) => const StaffScreen(),
-    ),
+    GoRoute(path: "/staff", builder: (context, state) => const StaffScreen()),
     GoRoute(
       path: "/staff/feedback",
       builder: (context, state) {
