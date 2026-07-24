@@ -30,6 +30,10 @@
 	<string>E-sensya &amp; Co utilise l'appareil photo pour prendre des photos à partager.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>E-sensya &amp; Co utilise votre galerie pour choisir des photos à partager.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>E-sensya &amp; Co utilise le microphone pour l'assistant vocal SENSI.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>E-sensya &amp; Co utilise la reconnaissance vocale pour comprendre vos commandes à SENSI.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -57,6 +57,8 @@ class UserProfile {
     this.guardianName,
     this.guardianOrganization,
     this.guardianReference,
+    this.onboardingCompleted = false,
+    this.roleDetails = const {},
   });
 
   final String uid;
@@ -71,6 +73,23 @@ class UserProfile {
   final String? guardianName;
   final String? guardianOrganization;
   final String? guardianReference;
+  final bool onboardingCompleted;
+  final Map<String, dynamic> roleDetails;
+
+  List<String> get serviceCategoryValues => _stringList("serviceCategories");
+
+  List<String> get serviceSpecialties => _stringList("serviceSpecialties");
+
+  List<String> get appointmentModeValues => _stringList("appointmentModes");
+
+  List<String> _stringList(String key) {
+    final value = roleDetails[key];
+    if (value is! List) return const [];
+    return [
+      for (final item in value)
+        if (item is String) item,
+    ];
+  }
 
   factory UserProfile.fromMap(String uid, Map<String, dynamic> map) {
     return UserProfile(
@@ -88,6 +107,10 @@ class UserProfile {
       guardianName: map["guardianName"] as String?,
       guardianOrganization: map["guardianOrganization"] as String?,
       guardianReference: map["guardianReference"] as String?,
+      onboardingCompleted: map["onboardingCompleted"] as bool? ?? false,
+      roleDetails: Map<String, dynamic>.from(
+        map["roleDetails"] as Map? ?? const {},
+      ),
     );
   }
 
@@ -105,6 +128,8 @@ class UserProfile {
     if (guardianOrganization != null)
       "guardianOrganization": guardianOrganization,
     if (guardianReference != null) "guardianReference": guardianReference,
+    "onboardingCompleted": onboardingCompleted,
+    "roleDetails": roleDetails,
   };
 
   UserProfile copyWith({String? displayName, String? photoUrl}) {
@@ -121,6 +146,8 @@ class UserProfile {
       guardianName: guardianName,
       guardianOrganization: guardianOrganization,
       guardianReference: guardianReference,
+      onboardingCompleted: onboardingCompleted,
+      roleDetails: roleDetails,
     );
   }
 }

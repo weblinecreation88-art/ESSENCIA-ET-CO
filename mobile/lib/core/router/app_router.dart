@@ -6,6 +6,8 @@ import "../../features/auth/presentation/welcome_screen.dart";
 import "../../features/auth/presentation/login_screen.dart";
 import "../../features/auth/presentation/signup_screen.dart";
 import "../../features/auth/presentation/role_selection_screen.dart";
+import "../../features/auth/presentation/role_onboarding_screen.dart";
+import "../../features/auth/domain/user_role.dart";
 import "../../features/profile/profile_screen.dart";
 import "../../features/profile/family_screen.dart";
 import "../../features/profile/preferences_screen.dart";
@@ -49,6 +51,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: "/role-selection",
       builder: (context, state) => const RoleSelectionScreen(),
+    ),
+    GoRoute(
+      path: "/role-onboarding",
+      builder: (context, state) => RoleOnboardingScreen(
+        role: UserRole.fromStorage(
+          state.uri.queryParameters["role"] ?? UserRole.resident.storageValue,
+        ),
+      ),
     ),
     GoRoute(path: "/home", builder: (context, state) => const HomeScreen()),
     GoRoute(

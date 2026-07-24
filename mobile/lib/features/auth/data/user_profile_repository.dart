@@ -28,7 +28,21 @@ class UserProfileRepository {
       "uid": uid,
       "email": email,
       "role": role.storageValue,
+      "onboardingCompleted": false,
       "createdAt": FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> completeOnboarding({
+    required String uid,
+    required String displayName,
+    required Map<String, dynamic> roleDetails,
+  }) {
+    return _users.doc(uid).update({
+      "displayName": displayName,
+      "roleDetails": roleDetails,
+      "onboardingCompleted": true,
+      "profileUpdatedAt": FieldValue.serverTimestamp(),
     });
   }
 

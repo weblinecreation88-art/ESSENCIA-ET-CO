@@ -6,6 +6,17 @@ import "../../core/theme/app_theme.dart";
 
 const _faq = [
   (
+    question: "Qu'est-ce que SENSI et comment l'utiliser ?",
+    answer:
+        "SENSI est l'assistant vocal de l'application, accessible depuis le "
+        "bouton micro sur l'accueil. Appuyez dessus puis parlez, par exemple "
+        "\"Montre mes rendez-vous\", \"Appelle ma fille\", \"Lire mes "
+        "notifications\" ou \"Que dois-je faire aujourd'hui ?\". Pour un "
+        "appel ou un message, SENSI vous demande toujours de confirmer avant "
+        "d'agir. Un résumé des commandes s'affiche automatiquement la "
+        "première fois que vous utilisez le bouton.",
+  ),
+  (
     question: "Comment ajouter un proche ?",
     answer: "Depuis l'accueil, appuyez sur \"Ma famille\" puis sur \"Ajouter un proche\".",
   ),

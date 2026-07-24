@@ -4,7 +4,9 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "../data/auth_repository.dart";
 import "../data/user_profile_repository.dart";
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository());
+final authRepositoryProvider = Provider<AuthRepository>(
+  (ref) => AuthRepository(),
+);
 
 final userProfileRepositoryProvider = Provider<UserProfileRepository>(
   (ref) => UserProfileRepository(),
@@ -19,5 +21,9 @@ final authStateChangesProvider = StreamProvider<User?>((ref) {
 /// splash et par l'écran de connexion.
 Future<String> resolvePostAuthRoute(WidgetRef ref, String uid) async {
   final profile = await ref.read(userProfileRepositoryProvider).fetch(uid);
-  return profile == null ? "/role-selection" : "/home";
+  if (profile == null) return "/role-selection";
+  if (!profile.onboardingCompleted) {
+    return "/role-onboarding?role=${profile.role.storageValue}";
+  }
+  return "/home";
 }

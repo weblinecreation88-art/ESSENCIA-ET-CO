@@ -11,6 +11,7 @@ import "../../core/theme/app_theme.dart";
 import "../auth/application/auth_providers.dart";
 import "../auth/domain/user_profile.dart";
 import "../notifications/application/notification_providers.dart";
+import "../voice_assistant/presentation/voice_assistant_button.dart";
 
 /// Écran d'accueil avec la bottom nav (Accueil / Messages / Agenda / Profil),
 /// reprenant la structure de navigation principale des maquettes. Le contenu
@@ -71,15 +72,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         bellShowcaseKey: _bellShowcaseKey,
         quickActionsShowcaseKey: _quickActionsShowcaseKey,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.secondary,
-        foregroundColor: Colors.white,
-        onPressed: () => context.push("/emergency"),
-        icon: const Icon(Icons.sos_rounded, size: 28),
-        label: const Text(
-          "Urgences",
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-        ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const VoiceAssistantButton(),
+          const SizedBox(height: AppSpacing.md),
+          FloatingActionButton.extended(
+            backgroundColor: AppColors.secondary,
+            foregroundColor: Colors.white,
+            onPressed: () => context.push("/emergency"),
+            icon: const Icon(Icons.sos_rounded, size: 28),
+            label: const Text(
+              "Urgences",
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: Showcase(
         key: _navShowcaseKey,
@@ -189,7 +197,7 @@ class _AccueilTab extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.xl,
-                AppSpacing.lg,
+                0,
                 AppSpacing.xl,
                 AppSpacing.xl,
               ),
@@ -204,31 +212,21 @@ class _AccueilTab extends StatelessWidget {
                   fontSize: 14,
                 ),
                 targetPadding: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: AppSpacing.sm,
+                  crossAxisSpacing: AppSpacing.sm,
+                  childAspectRatio: 1.45,
                   children: [
-                    Text(
-                      "Accès rapides",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: AppSpacing.sm,
-                      crossAxisSpacing: AppSpacing.sm,
-                      childAspectRatio: 1.45,
-                      children: [
-                        for (final action in quickActions)
-                          _QuickActionCard(
-                            icon: action.icon,
-                            label: action.label,
-                            color: action.color,
-                            onTap: () => context.push(action.route),
-                          ),
-                      ],
-                    ),
+                    for (final action in quickActions)
+                      _QuickActionCard(
+                        icon: action.icon,
+                        label: action.label,
+                        color: action.color,
+                        onTap: () => context.push(action.route),
+                      ),
                   ],
                 ),
               ),

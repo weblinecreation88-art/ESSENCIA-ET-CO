@@ -254,10 +254,25 @@ class _ProvidersList extends ConsumerWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        final providers = snapshot.data ?? [];
+        final allProviders = snapshot.data ?? [];
+        final providers = allProviders.where((provider) {
+          final categories = provider.serviceCategoryValues;
+          final specialties = provider.serviceSpecialties;
+          final matchesCategory =
+              categories.isEmpty || categories.contains(category.storageValue);
+          final matchesSpecialty =
+              specialties.isEmpty || specialties.contains(specialty);
+          return matchesCategory && matchesSpecialty;
+        }).toList();
         if (providers.isEmpty) {
-          return const Center(
-            child: Text("Aucun prestataire disponible pour l'instant."),
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Text(
+                "Aucun professionnel ne propose encore « $specialty ».",
+                textAlign: TextAlign.center,
+              ),
+            ),
           );
         }
         return ListView.separated(

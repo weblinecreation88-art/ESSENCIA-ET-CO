@@ -1,7 +1,7 @@
 import { Bell, Check, Download, MessageCircle } from "lucide-react";
 
 const APK_DOWNLOAD_URL =
-  "https://drive.google.com/file/d/1lfS4-i6o_WupghispnntlQdX7fiB9L5-/view?usp=drive_link";
+  "https://drive.google.com/file/d/1MaBmnr6hIC0JMAy158NRCgWa_-tpw5YQ/view?usp=sharing";
 
 export function Hero() {
   return (

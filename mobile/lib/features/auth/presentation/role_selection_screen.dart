@@ -27,13 +27,11 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
     }
     setState(() => _isSubmitting = true);
     try {
-      await ref.read(userProfileRepositoryProvider).createProfile(
-        uid: user.uid,
-        email: user.email ?? "",
-        role: role,
-      );
+      await ref
+          .read(userProfileRepositoryProvider)
+          .createProfile(uid: user.uid, email: user.email ?? "", role: role);
       if (!mounted) return;
-      context.go("/home");
+      context.go("/role-onboarding?role=${role.storageValue}");
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }
@@ -48,7 +46,10 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Je suis...", style: Theme.of(context).textTheme.displayLarge),
+              Text(
+                "Je suis...",
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 "Choisissez le profil qui vous correspond.",
@@ -108,10 +109,7 @@ class _RoleCard extends StatelessWidget {
               backgroundImage: AssetImage(role.defaultAvatarAsset),
             ),
             const SizedBox(height: AppSpacing.md),
-            Text(
-              role.label,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(role.label, style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       ),

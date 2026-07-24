@@ -12,7 +12,20 @@
           "package_name": "com.essenciaco.essencia_co"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "70499913861-gvrd0d7k2tjots1mc4nuf32nias9sj5r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.essenciaco.essencia_co",
+            "certificate_hash": "cbb960e1873fbfe6871b01472da3e18bead8011b"
+          }
+        },
+        {
+          "client_id": "70499913861-i4d5uijcbmacnbojuvbhiuqcep0r8usb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBtXy-chh0lEFp_puZNqiIk93xpJLEyQ6g"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70499913861-i4d5uijcbmacnbojuvbhiuqcep0r8usb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "70499913861-0njojnb1b53r139o6q8mnqlt4s58klkd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.essenciaco.essenciaCo"
+              }
+            }
+          ]
         }
       }
     }
